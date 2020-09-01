@@ -1,1 +1,1 @@
-# full-stack-school
+# School stuff
