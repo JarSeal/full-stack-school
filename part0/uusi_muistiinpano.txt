@@ -1,0 +1,10 @@
+note:
+käyttäjä asettaa fokuksen tekstikenttään 'note'
+ja kirjoittaa siihen halutun tekstin (esim. "Osta maitoa").
+Tämän jälkeen käyttäjä painaa Save-nappia tai Enter-näppäintä.
+end note
+
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note (Form Data: note=Osta maitoa)
+palvelin: Tallentaa note-kentän payloadin "Osta maitoa"
+palvelin: Uudelleenohjaus takaisin notes-sivulle
+palvelin->selain: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes

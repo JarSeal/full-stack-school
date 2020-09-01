@@ -1,0 +1,10 @@
+note:
+käyttäjä asettaa fokuksen tekstikenttään 'note'
+ja kirjoittaa siihen halutun tekstin (esim. "Osta maitoa").
+Tämän jälkeen käyttäjä painaa Save-nappia tai Enter-näppäintä.
+end note
+
+selain: päivittää listan, jossa uusi muistiinpano on mukana
+selain->palvelin: XMLHTTP/AJAX POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa (Request Payload: {content: "Osta maitoa, date: "2020-09-01T03:56:10.049Z})
+palvelin: Tallentaa payloadin content "Osta maitoa"
+palvelin->selain: {"message":"note created"}
