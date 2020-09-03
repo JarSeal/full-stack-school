@@ -1,8 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Header from './Header';
-import Content from './Content';
-import Total from './Total';
+
+const Header = ({courseName}) => {
+  return <h1>{courseName}</h1>;
+};
+
+const Content = ({parts}) => {
+  const allParts = [];
+  parts.forEach(({name, exercises}) => {
+      allParts.push(
+          <Part part={name} exerciseCount={exercises} key={name.replace(" ", "")} />
+      );
+  });
+  return <div>{allParts}</div>;
+};
+
+const Part = ({part, exerciseCount}) => {
+  return <p>{part} {exerciseCount}</p>;
+};
+
+const Total = ({parts}) => {
+  let total = 0;
+  parts.forEach(({exercises}) => {
+      total += exercises;
+  });
+  return <p>
+      Number of exercises {total}
+  </p>;
+};
 
 const App = () => {
   const course = {
