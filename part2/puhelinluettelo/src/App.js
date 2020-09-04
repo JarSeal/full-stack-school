@@ -5,20 +5,18 @@ import Filter from './components/Filter';
 import NewNumberForm from './components/NewNumberForm';
 
 const App = () => {
-  const [ persons, setPersons] = useState([]);
+  const [ persons, setPersons ] = useState([]);
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ filterVal, setFilterVal ] = useState('');
 
   useEffect(() => {
-    console.log('effect')
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
-        console.log('promise fulfilled', response.data)
         setPersons(response.data)
       })
-  }, [])
+  }, []);
 
   return (
     <div>
