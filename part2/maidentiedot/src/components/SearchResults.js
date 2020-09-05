@@ -4,17 +4,35 @@ import axios from 'axios';
 const WeatherTemplate = (country) => {
     const apiKey = process.env.REACT_APP_WEATHER;
     const [ loading, setLoading ] = useState(true);
-    const [ weatherData, setWeatherData ] = useState([]);
+    const [ weatherData, setWeatherData ] = useState({});
     useEffect(() => {
         axios
             .get('http://api.weatherstack.com/current?access_key=' + apiKey + '&query=' + country.capital)
             .then(response => {
                 setLoading(false);
+                setWeatherData(response.data.current);
                 console.log('promise fulfilled', response.data);
             });
-    }, [apiKey]);
+    }, [apiKey, country.capital]);
     return <div>
         <h3>Weather in {country.capital}</h3>
+        {
+            loading
+                ? <div>Loading...</div>
+                : <div>
+                    <div>
+                        <span style={{fontWeight:'bold'}}>Temperature: </span>
+                        {weatherData.temperature} Celcius
+                    </div>
+                    <div>
+                        <img src={weatherData.weather_icons} alt={'Weather icon'} />
+                    </div>
+                    <div>
+                        <span style={{fontWeight:'bold'}}>Wind: </span>
+                        {weatherData.wind_speed} mph direction {weatherData.wind_dir}
+                    </div>
+                </div>
+        }
     </div>;
 };
 
