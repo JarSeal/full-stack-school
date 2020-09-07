@@ -52,12 +52,7 @@ const CountryTemplate = (data) => {
     </div>;
 };
 
-const handleShowCountry = (country, setSearch, setSearchedCountries) => {
-    setSearch(country.name);
-    setSearchedCountries([country]);
-};
-
-const SearchResults = ({searchR, setSearch, setSearchedCountries}) => {
+const SearchResults = ({searchR, handleShowCountry}) => {
     let result = '';
     if(searchR.length === 1) {
         result = CountryTemplate(searchR[0]);
@@ -66,7 +61,7 @@ const SearchResults = ({searchR, setSearch, setSearchedCountries}) => {
     } else {
         result = searchR.map(
             country => <div key={country.numericCode}>
-                {country.name} <button onClick={() => handleShowCountry(country, setSearch, setSearchedCountries)}>show</button>
+                {country.name} <button onClick={() => handleShowCountry(country)}>show</button>
             </div>
         );
     }

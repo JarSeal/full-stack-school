@@ -16,10 +16,33 @@ const App = () => {
       })
   }, []);
 
+  const handleSearch = (e) => {
+    let value = e.target.value.toUpperCase();
+    setSearch(e.target.value);
+    if(!value.length) {
+        setSearchedCountries([]);
+        return;
+    }
+    setSearchedCountries(
+        countries.filter(
+            country => country.name.toUpperCase().includes(value)
+        )
+    );
+  };
+
+  const handleShowCountry = (country) => {
+    setSearch(country.name);
+    setSearchedCountries([country]);
+  };
+
   return (
     <div className="App">
-      <SearchField countries={countries} setSearchedCountries={setSearchedCountries} search={search} setSearch={setSearch} />
-      <SearchResults searchR={searchedCountries} setSearch={setSearch} setSearchedCountries={setSearchedCountries} />
+      <SearchField
+        search={search} setSearch={setSearch}
+        handleSearch={handleSearch} />
+      <SearchResults
+        searchR={searchedCountries}
+        handleShowCountry={handleShowCountry} />
     </div>
   );
 }
