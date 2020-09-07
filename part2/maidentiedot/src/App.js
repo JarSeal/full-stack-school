@@ -38,7 +38,7 @@ const App = () => {
   return (
     <div className="App">
       <SearchField
-        search={search} setSearch={setSearch}
+        search={search}
         handleSearch={handleSearch} />
       <SearchResults
         searchR={searchedCountries}
