@@ -12,7 +12,7 @@ const sortObjectByKey = (a, b, key) => {
     return comparison;
 };
 
-const PersonsList = ({persons, filterVal}) => {
+const PersonsList = ({persons, filterVal, loadingList, handleDelete}) => {
     let list = persons,
         value;
     if(filterVal.length) {
@@ -24,8 +24,11 @@ const PersonsList = ({persons, filterVal}) => {
     list.sort((a, b) => sortObjectByKey(a, b, 'name'));
     return <ul style={{listStyle:'none', padding:0}}>
         {list.length
-            ? list.map((item) => <li key={item.name.replace("", " ")}>{item.name} {item.number}</li>)
-            : <h4>No contacts found!</h4>
+            ? list.map((item) => <li key={"contact-item-" + item.id}>
+                {item.name} {item.number}&nbsp;
+                <button onClick={() => handleDelete(item.id, item.name)}>Delete</button>
+              </li>)
+            : <h4>{loadingList ? 'Loading...' : 'No contacts found!'}</h4>
         }
     </ul>;
 };

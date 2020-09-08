@@ -9,9 +9,9 @@ const WeatherTemplate = (country) => {
         axios
             .get('http://api.weatherstack.com/current?access_key=' + apiKey + '&query=' + country.capital)
             .then(response => {
-                setLoading(false);
+                console.log(response.data);
                 setWeatherData(response.data.current);
-                console.log('promise fulfilled', response.data);
+                setLoading(false);
             });
     }, [apiKey, country.capital]);
     return <div>
