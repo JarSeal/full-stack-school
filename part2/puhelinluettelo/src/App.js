@@ -135,9 +135,8 @@ const App = () => {
             });
           })
           .catch(error => {
-            console.log('Error in deleting id ' + id + '.', error);
             setNote({
-              msg: "Error in deleting a contact!",
+              msg: `Information of ${name} has already been removed from the server.`,
               type: 3,
               length: 0,
               phase: 1,
