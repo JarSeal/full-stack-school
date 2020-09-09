@@ -1,16 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": 3
@@ -21,19 +11,29 @@
       "id": 4
     },
     {
-      "name": "Teppo",
-      "number": "123",
-      "id": 5
-    },
-    {
       "name": "Risto",
-      "number": "43432432",
+      "number": "123",
       "id": 6
     },
     {
       "name": "Skeba",
       "number": "43432432432",
       "id": 7
+    },
+    {
+      "name": "Pekka",
+      "number": "321343432",
+      "id": 8
+    },
+    {
+      "name": "fdsfd",
+      "number": "432423",
+      "id": 9
+    },
+    {
+      "name": "fdsfds",
+      "number": "324324",
+      "id": 10
     }
   ]
 }
