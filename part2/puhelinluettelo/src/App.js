@@ -18,6 +18,7 @@ const App = () => {
     numberService.getAll()
       .then(response => {
         setPersons(response);
+        setLoadingList(false);
       })
       .catch(error => {
         console.log('Error in loading contacts!', error);
@@ -27,6 +28,7 @@ const App = () => {
           length: 0,
           phase: 1,
         });
+        setLoadingList(false);
       });
   }, []);
 
@@ -133,6 +135,7 @@ const App = () => {
               length: 4000,
               phase: 1,
             });
+            setLoadingList(false);
           })
           .catch(error => {
             setNote({
@@ -141,6 +144,7 @@ const App = () => {
               length: 0,
               phase: 1,
             });
+            setLoadingList(false);
           });
       }
     });
