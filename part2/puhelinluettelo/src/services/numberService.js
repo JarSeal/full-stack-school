@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3001/api/persons';
+const baseUrl = process.env.REACT_APP_API || '/api/persons';
 
 const returnRequest = (request) => {
     return request.then(response => response.data);
