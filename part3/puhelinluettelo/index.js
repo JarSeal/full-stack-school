@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -15,34 +16,10 @@ app.use(morgan(
 ));
 app.use(cors());
 
+const Contact = require('./models/contact');
+
 let contacts = {
-    persons: [
-        {
-          name: "Dan Abramov",
-          number: "12-43-234345",
-          id: 1
-        },
-        {
-          name: "Mary Poppendieck",
-          number: "39-23-6423122",
-          id: 2
-        },
-        {
-          name: "Risto",
-          number: "123",
-          id: 3
-        },
-        {
-          name: "Skeba",
-          number: "43432432432",
-          id: 4
-        },
-        {
-          name: "Pekka",
-          number: "321343432",
-          id: 5
-        },
-    ],
+    persons: [],
 };
 
 app.get('/info', (req, res) => {
@@ -54,7 +31,10 @@ app.get('/info', (req, res) => {
 });
 
 app.get('/api/persons', (req, res) => {
-  res.json(contacts.persons);
+    Contact.find({}).then(results => {
+        contacts.persons = results;
+        res.json(results);
+    });
 });
 
 app.get('/api/persons/:id', (req, res) => {
@@ -99,11 +79,19 @@ app.post('/api/persons', (req, res) => {
         number: contact.number,
         id: generateId(),
     });
-  
-    res.json(contact);
+
+    const newContact = new Contact({
+        name: contact.name,
+        number: contact.number,
+        id: generateId(),
+    });
+
+    newContact.save().then(savedContact => {
+        res.json(savedContact);
+    });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

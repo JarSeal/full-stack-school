@@ -8,7 +8,7 @@ if (process.argv.length<3) {
 const password = process.argv[2];
 
 const url =
-    `mongodb+srv://fullstack:${password}@cluster0.ey4jg.mongodb.net/<dbname>?retryWrites=true&w=majority`
+    `mongodb+srv://fullstack:${password}@cluster0.ey4jg.mongodb.net/phonebook-app?retryWrites=true&w=majority`;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -17,7 +17,7 @@ const contactSchema = new mongoose.Schema({
     number: { type: String, required: true },
 });
 
-const Contact = mongoose.model('Contact', contactSchema)
+const Contact = mongoose.model('Contact', contactSchema);
 
 let contacts = {};
 
