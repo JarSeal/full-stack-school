@@ -79,6 +79,8 @@ const App = () => {
                 length: 4000,
                 phase: 1,
               });
+              setNewName('');
+              setNewNumber('');
             })
             .catch(error => {
               console.log('Error in updating a number!', error);
@@ -91,8 +93,6 @@ const App = () => {
             });
         }
       });
-      setNewName('');
-      setNewNumber('');
       return;
     }
     numberService.create(name, number)
@@ -138,6 +138,7 @@ const App = () => {
             setLoadingList(false);
           })
           .catch(error => {
+            setPersons(persons.filter(person => person.id !== id));
             setNote({
               msg: `Information of ${name} has already been removed from the server.`,
               type: 3,
