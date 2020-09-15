@@ -109,9 +109,11 @@ const App = () => {
         });
       })
       .catch(error => {
-        console.log('Error in saving a new contact!', error);
+        console.log('Error in saving a new contact!', error.response.data);
         setNote({
-          msg: "Error in saving a new contact!",
+          msg: error.response && error.response.data && error.response.data.error
+            ? error.response.data.error
+            : 'Error in saving a new contact!',
           type: 3,
           length: 0,
           phase: 1,
