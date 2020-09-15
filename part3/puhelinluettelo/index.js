@@ -31,7 +31,8 @@ app.get('/info', (req, res, next) => {
 });
 
 app.get('/api/persons', (req, res, next) => {
-  Contact.find({})
+  Contact
+    .find({})
     .then(results => {
       res.json(results);
     })
@@ -39,7 +40,8 @@ app.get('/api/persons', (req, res, next) => {
 });
 
 app.get('/api/persons/:id', (req, res, next) => {
-  Contact.findById(req.params.id)
+  Contact
+    .findById(req.params.id)
     .then(contact => {
       if(contact) {
         res.json(contact);
@@ -53,7 +55,6 @@ app.get('/api/persons/:id', (req, res, next) => {
 app.delete('/api/persons/:id', (req, res, next) => {
   Contact.findByIdAndRemove(req.params.id)
     .then(result => {
-      console.log('result', result);
       if(result) {
         res.status(204).end();
       } else {
@@ -99,17 +100,16 @@ const unknownEndpoint = (req, res) => {
 };
 app.use(unknownEndpoint);
 
-const errorHandler = (error, req, res) => {
-  console.error(error.name);
+const errorHandler = (error, req, res, next) => {
   console.error(error.message);
 
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' });
   } else if (error.name === 'ValidationError') {
     return res.status(400).send({ error: error.message });
-  } else {
-    return res.status(500).send({ error: 'error occurred' });
   }
+
+  next(error);
 };
 app.use(errorHandler);
 
