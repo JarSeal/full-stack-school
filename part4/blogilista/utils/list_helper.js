@@ -29,9 +29,27 @@ const mostBlogs = (blogs) => {
   }, bloggerList[0]);
 };
 
+const mostLikes = (blogs) => {
+  const bloggerList = blogs.reduce((bloggers, item) => {
+    if(bloggers.find((blogger) => { return blogger.author === item.author })) return bloggers;
+    bloggers.push({
+      author: item.author,
+      likes: blogs.reduce((sum, blog) => {
+        if(blog.author === item.author) return sum + blog.likes;
+        return sum;
+      }, 0),
+    });
+    return bloggers;
+  }, []);
+  return bloggerList.reduce((most, item) => {
+    return most.likes < item.likes ? item : most;
+  }, bloggerList[0]);
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 };

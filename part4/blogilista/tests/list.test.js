@@ -18,7 +18,7 @@ describe('total likes', () => {
   });
   test('of a bigger list is calculated right', () => {
     const result = listHelper.totalLikes(listWithManyBlogs);
-    expect(result).toBe(16);
+    expect(result).toBe(18);
   });
 });
 
@@ -49,6 +49,21 @@ describe('most blogs', () => {
   test('of a bigger list is calculated right', () => {
     const result = listHelper.mostBlogs(listWithManyBlogs);
     expect(result).toEqual({ author: 'Edsger W. Dijkstra', blogs: 3 });
+  });
+});
+
+describe('most likes', () => {
+  test('of empty list is zero', () => {
+    const result = listHelper.mostLikes([]);
+    expect(result).toEqual(undefined);
+  });
+  test('when list has only one blog equals the likes of that', () => {
+    const result = listHelper.mostLikes(listWithOneBlog);
+    expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 5 });
+  });
+  test('of a bigger list is calculated right', () => {
+    const result = listHelper.mostLikes(listWithManyBlogs);
+    expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 9 });
   });
 });
 
@@ -84,7 +99,7 @@ const listWithManyBlogs = [
     title: 'This is another post',
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-    likes: 0,
+    likes: 2,
     __v: 0
   },
   {
