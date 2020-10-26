@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('./../app');
-const Note = require('./../models/blog');
+const Blog = require('./../models/blog');
 
 const api = supertest(app);
 
@@ -43,15 +43,62 @@ const initialBlogs = [
     likes: 0,
   },
 ];
+
+beforeAll(async () => {
+  jest.setTimeout(10000);
+});
+
 beforeEach(async () => {
-  await Note.deleteMany({});
-  await Note.insertMany(initialBlogs);
+  await Blog.deleteMany({});
+  await Blog.insertMany(initialBlogs);
 });
 
 describe('api tests', () => {
-  test('there are six blogs', async () => {
+  test('there are '+initialBlogs.length+' blogs with id attribute', async () => {
     const response = await api.get('/api/blogs');
-    expect(response.body).toHaveLength(6);
+    expect(response.body).toHaveLength(initialBlogs.length);
+    for(let blog of response.body) {
+      expect(blog.id).toBeDefined();
+    }
+  });
+  test('new blog is added succesfully', async () => {
+    const blog = new Blog({
+      title: 'Lets test this blog',
+      author: 'Bot',
+      url: 'http://www.yle.fi',
+      likes: 0
+    });
+    await blog.save();
+    const response = await api.get('/api/blogs');
+    expect(response.body).toHaveLength(initialBlogs.length + 1);
+  });
+  test('new blog without likes is added succesfully', async () => {
+    const blog = new Blog({
+      title: 'Lets test a blog without defining likes',
+      author: 'Bot',
+      url: 'http://www.yle.fi'
+    });
+    let savedBlog = await blog.save();
+    savedBlog = savedBlog.toJSON();
+    expect(savedBlog.likes).toEqual(0);
+  });
+  test('new blog without title fails as bad request (validationError)', async () => {
+    const blog = new Blog({
+      author: 'Bot',
+      url: 'http://www.yle.fi'
+    });
+    await expect(blog.save())
+      .rejects
+      .toThrow(mongoose.Error.ValidationError);
+  });
+  test('new blog without url fails as bad request (validationError)', async () => {
+    const blog = new Blog({
+      title: 'Test blog',
+      author: 'Bot'
+    });
+    await expect(blog.save())
+      .rejects
+      .toThrow(mongoose.Error.ValidationError);
   });
 });
 
