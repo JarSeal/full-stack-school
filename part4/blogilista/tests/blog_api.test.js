@@ -48,12 +48,11 @@ beforeAll(async () => {
   jest.setTimeout(10000);
 });
 
-beforeEach(async () => {
-  await Blog.deleteMany({});
-  await Blog.insertMany(initialBlogs);
-});
-
 describe('api tests', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({});
+    await Blog.insertMany(initialBlogs);
+  });
   test('there are '+initialBlogs.length+' initial blogs with id\'s', async () => {
     const response = await api.get('/api/blogs');
     expect(response.body).toHaveLength(initialBlogs.length);
