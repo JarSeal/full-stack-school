@@ -11,7 +11,11 @@ describe('when there is initially one user at db', () => {
     await User.deleteMany({});
   
     const passwordHash = await bcrypt.hash('sekret', 10);
-    const user = new User({ username: 'root', passwordHash });
+    const user = new User({
+        username: 'root',
+        name: 'Admin',
+        passwordHash
+    });
   
     await user.save();
   });
@@ -37,6 +41,11 @@ describe('when there is initially one user at db', () => {
     expect(usersAtEnd).toHaveLength(usersAtStart.length + 1);
     expect(usernames).toContain(newUser.username);
   });
+  // Fails with existing username
+  // Fails with empty username
+  // Fails with too short username
+  // Fails with empty password
+  // Fails with too short password
 });
 
 afterAll(() => {
