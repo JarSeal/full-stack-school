@@ -41,11 +41,75 @@ describe('when there is initially one user at db', () => {
     expect(usersAtEnd).toHaveLength(usersAtStart.length + 1);
     expect(usernames).toContain(newUser.username);
   });
-  // Fails with existing username
-  // Fails with empty username
-  // Fails with too short username
-  // Fails with empty password
-  // Fails with too short password
+
+  test('creation fails with an existing username', async () => {
+    const newUser = {
+        username: 'root',
+        name: 'Epic Fail',
+        password: 'salainen',
+    };
+
+    // Fails with existing username
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400);
+  });
+
+  test('creation fails with an empty username', async () => {
+    const newUser = {
+        username: '',
+        name: 'Epic Fail',
+        password: 'salainen',
+    };
+
+    // Fails with an empty username
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400);
+  });
+
+  test('creation fails with too short username', async () => {
+    const newUser = {
+        username: 'ab',
+        name: 'Epic Fail',
+        password: 'salainen',
+    };
+
+    // Fails with too short username
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400);
+  });
+  test('creation fails with an empty password', async () => {
+    const newUser = {
+        username: 'someUsername',
+        name: 'Epic Fail',
+        password: '',
+    };
+
+    // Fails with an empty password
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400);
+  });
+
+  test('creation fails with too short password', async () => {
+    const newUser = {
+        username: 'someUsername',
+        name: 'Epic Fail',
+        password: 'ab',
+    };
+
+    // Fails with too short password
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400);
+  });
 });
 
 afterAll(() => {
