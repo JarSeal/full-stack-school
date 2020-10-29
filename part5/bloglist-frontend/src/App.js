@@ -21,7 +21,7 @@ const App = () => {
       blogService.setToken(u.token);
     }
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs(blogs.reverse())
     );
   }, []);
 
@@ -36,7 +36,10 @@ const App = () => {
         ls={ls}
       ></Login>
       {user !== null &&
-        <CreateBlog></CreateBlog>
+        <CreateBlog
+          setBlogNote={setNote}
+          setBlogs={setBlogs}
+          blogs={blogs}></CreateBlog>
       }
       {user !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
