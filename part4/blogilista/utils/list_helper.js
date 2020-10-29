@@ -1,4 +1,4 @@
-const dummy = (blogs) => {
+const dummy = () => {
   return 1;
 };
 
@@ -17,7 +17,7 @@ const favoriteBlog = (blogs) => {
 
 const mostBlogs = (blogs) => {
   const bloggerList = blogs.reduce((bloggers, item) => {
-    if(bloggers.find((blogger) => { return blogger.author === item.author })) return bloggers;
+    if(bloggers.find((blogger) => { return blogger.author === item.author; })) return bloggers;
     bloggers.push({
       author: item.author,
       blogs: blogs.filter(blogger => blogger.author === item.author).length,
@@ -31,7 +31,7 @@ const mostBlogs = (blogs) => {
 
 const mostLikes = (blogs) => {
   const bloggerList = blogs.reduce((bloggers, item) => {
-    if(bloggers.find((blogger) => { return blogger.author === item.author })) return bloggers;
+    if(bloggers.find((blogger) => { return blogger.author === item.author; })) return bloggers;
     bloggers.push({
       author: item.author,
       likes: blogs.reduce((sum, blog) => {

@@ -12,9 +12,9 @@ describe('when there is initially one user at db', () => {
   
     const passwordHash = await bcrypt.hash('sekret', 10);
     const user = new User({
-        username: 'root',
-        name: 'Admin',
-        passwordHash
+      username: 'root',
+      name: 'Admin',
+      passwordHash
     });
   
     await user.save();
@@ -44,9 +44,9 @@ describe('when there is initially one user at db', () => {
 
   test('creation fails with an existing username', async () => {
     const newUser = {
-        username: 'root',
-        name: 'Epic Fail',
-        password: 'salainen',
+      username: 'root',
+      name: 'Epic Fail',
+      password: 'salainen',
     };
 
     // Fails with existing username
@@ -58,9 +58,9 @@ describe('when there is initially one user at db', () => {
 
   test('creation fails with an empty username', async () => {
     const newUser = {
-        username: '',
-        name: 'Epic Fail',
-        password: 'salainen',
+      username: '',
+      name: 'Epic Fail',
+      password: 'salainen',
     };
 
     // Fails with an empty username
@@ -72,9 +72,9 @@ describe('when there is initially one user at db', () => {
 
   test('creation fails with too short username', async () => {
     const newUser = {
-        username: 'ab',
-        name: 'Epic Fail',
-        password: 'salainen',
+      username: 'ab',
+      name: 'Epic Fail',
+      password: 'salainen',
     };
 
     // Fails with too short username
@@ -85,9 +85,9 @@ describe('when there is initially one user at db', () => {
   });
   test('creation fails with an empty password', async () => {
     const newUser = {
-        username: 'someUsername',
-        name: 'Epic Fail',
-        password: '',
+      username: 'someUsername',
+      name: 'Epic Fail',
+      password: '',
     };
 
     // Fails with an empty password
@@ -99,9 +99,9 @@ describe('when there is initially one user at db', () => {
 
   test('creation fails with too short password', async () => {
     const newUser = {
-        username: 'someUsername',
-        name: 'Epic Fail',
-        password: 'ab',
+      username: 'someUsername',
+      name: 'Epic Fail',
+      password: 'ab',
     };
 
     // Fails with too short password
