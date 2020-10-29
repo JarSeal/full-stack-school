@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import loginService from './../services/login';
 
 const handleLogin = async (e, username, password, setUser, setUsername, setPassword, setLoginNote, ls) => {
@@ -29,28 +29,38 @@ const handleLogin = async (e, username, password, setUser, setUsername, setPassw
 
 const loginForm = (username, password, setUser, setUsername, setPassword, setLoginNote, ls) => {
   return (
-    <div className="login-form">
-      <h2>Login</h2>
+    <div className="login-form form-wrapper">
+      <h3>Login</h3>
       <form onSubmit={(e) => handleLogin(e, username, password, setUser, setUsername, setPassword, setLoginNote, ls)}>
-        <div>
-          username
+        <div className="form-elem form-elem__input-text">
+					<label htmlFor="login-user">
+						<span className="label-text">Username:</span>
             <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({target}) => setUsername(target.value)}
-          />
+              id="login-user"
+              className="input-text"
+              type="text"
+              value={username}
+              name="Username"
+              onChange={({target}) => setUsername(target.value)}
+            />
+          </label>
         </div>
-        <div>
-          password
+        <div className="form-elem form-elem__input-text">
+					<label htmlFor="login-pass">
+						<span className="label-text">Password:</span>
             <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({target}) => setPassword(target.value)}
-          />
+              id="login-pass"
+							className="input-text"
+              type="password"
+              value={password}
+              name="Password"
+              onChange={({target}) => setPassword(target.value)}
+            />
+          </label>
         </div>
-        <button type="submit">login</button>
+        <div className="form-elem form-elem__submit">
+          <button type="submit">login</button>
+        </div>
       </form>
     </div>
   );
@@ -77,7 +87,10 @@ const loginInfo = (user, setUser, setLoginNote, ls) => {
   );
 };
 
-const Login = ({user, username, password, setUser, setUsername, setPassword, setLoginNote, ls}) => {
+const Login = ({user, setUser, setLoginNote, ls}) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <div className="login-wrapper">
       { user === null
