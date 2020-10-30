@@ -79,7 +79,9 @@ const handleLogout = (e, setUser, setLoginNote, ls) => {
 
 const loginInfo = (user, setUser, setLoginNote, ls) => {
   return (
-    <div className="logged-in-bar" style={{marginBottom: '12px'}}>
+    <div className="logged-in-bar" style={{
+      marginBottom: '12px', paddingBottom: '8px', borderBottom: '2px dashed #bbb'
+    }}>
       {user.name} logged in
       &nbsp;
       <button onClick={(e) => handleLogout(e, setUser, setLoginNote, ls)}>logout</button>
