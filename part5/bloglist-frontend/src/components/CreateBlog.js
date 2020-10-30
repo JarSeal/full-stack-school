@@ -9,8 +9,9 @@ const handleCreateNew = async (
     const result = await blogService.newBlog({
       title, author, url
 		});
+		console.log('RESULT', result);
 		const newBlogs = blogs.concat(result);
-		setBlogs(newBlogs.reverse());
+		setBlogs(newBlogs);
     setTitle('');
 		setAuthor('');
 		setUrl('');

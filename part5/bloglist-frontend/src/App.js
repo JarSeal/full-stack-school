@@ -24,7 +24,7 @@ const App = () => {
       blogService.setToken(u.token);
     }
     blogService.getAll().then(blogs =>
-      setBlogs(blogs.reverse())
+      setBlogs(blogs)
     );
   }, []);
 
@@ -51,9 +51,14 @@ const App = () => {
             blogRef={blogRef} />
         </Togglable>
       }
-      {user !== null && blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      <div className='blog-list'>
+        {user !== null && blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        ).reverse()}
+      </div>
+      <footer style={{
+        opacity: 0.2, fontSize: '12px', textAlign: 'center', marginTop: '-18px', marginBottom: '50px'
+      }}>by Kai Forsman</footer>
     </div>
   );
 };
