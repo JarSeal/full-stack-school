@@ -75,7 +75,7 @@ const NotificationBox = ({note, setNote}) => {
             <button
                 onClick={() => setNote({...note, phase: 3})}
                 title="Close this notification"
-                className="notification__close"
+                className="close-button"
                 key="close-button"></button>
         );
     } else {

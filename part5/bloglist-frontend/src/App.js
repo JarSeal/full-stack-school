@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import Login from './components/Login';
 import NotificationBox from './components/NotificationBox';
 import CreateBlog from './components/CreateBlog';
+import Togglable from './components/Togglable';
 import blogService from './services/blogs';
 import ls from './utils/localStorage';
 import './styles/form-elements.css';
+import './styles/buttons.css';
 
 const App = () => {
+  const blogRef = useRef();
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [note, setNote] = useState({msg:"", type:0, length:0, phase:0});
+  const [note, setNote] = useState({msg:'', type:0, length:0, phase:0});
 
   useEffect(() => {
     ls.initLocalStorage();
@@ -26,20 +29,27 @@ const App = () => {
   }, []);
 
   return (
-    <div style={{fontFamily:"sans-serif",color:"#333"}}>
+    <div style={{
+      fontFamily:'sans-serif',
+      color:'#333',
+      maxWidth: '960px',
+      margin: '0 auto'
+    }}>
       <h2>Blogs</h2>
       <NotificationBox note={note} setNote={setNote} />
       <Login
         user={user}
         setUser={setUser}
         setLoginNote={setNote}
-        ls={ls}
-      ></Login>
+        ls={ls} />
       {user !== null &&
-        <CreateBlog
-          setBlogNote={setNote}
-          setBlogs={setBlogs}
-          blogs={blogs}></CreateBlog>
+        <Togglable label='+ New blog' ref={blogRef}>
+          <CreateBlog
+            setBlogNote={setNote}
+            setBlogs={setBlogs}
+            blogs={blogs}
+            blogRef={blogRef} />
+        </Togglable>
       }
       {user !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />

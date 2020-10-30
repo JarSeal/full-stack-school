@@ -62,38 +62,8 @@ body div .notification--end {
     color: rgba(255, 255, 255, 1);
 }
 
-/* Close button */
-.notification__close {
-    width: 16px;
-    height: 16px;
-    padding: 0;
-    border: none;
-    color: #fff;
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    cursor: pointer;
-    background: none;
-}
-.notification__close:before,
-.notification__close:after {
-    display: block;
-    content: "";
-    width: 12px;
-    height: 2px;
-    background-color: #fff;
-    position: absolute;
-    top: 6px;
-    left: 2px;
-}
-.notification__close:before {
-    transform: rotate(45deg);
-}
-.notification__close:after {
-    transform: rotate(-45deg);
-}
-.notification--warning .notification__close:before,
-.notification--warning .notification__close:after {
+.notification--warning .close-button:before,
+.notification--warning .close-button:after {
     background-color: #333;
 }
 
@@ -158,6 +128,7 @@ body div .notification--end {
     width: 96%;
     top: 50%;
     left: 2%;
+    max-width: none;
     transform: translateY(-50%);
     box-sizing: border-box;
     box-shadow: 0 0 12px rgba(0,0,0,0.3);
