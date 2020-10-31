@@ -33,28 +33,28 @@ const loginForm = (username, password, setUser, setUsername, setPassword, setLog
       <h3>Login</h3>
       <form onSubmit={(e) => handleLogin(e, username, password, setUser, setUsername, setPassword, setLoginNote, ls)}>
         <div className="form-elem form-elem__input-text">
-					<label htmlFor="login-user">
-						<span className="label-text">Username:</span>
+          <label htmlFor="login-user">
+            <span className="label-text">Username:</span>
             <input
               id="login-user"
               className="input-text"
               type="text"
               value={username}
               name="Username"
-              onChange={({target}) => setUsername(target.value)}
+              onChange={({ target }) => setUsername(target.value)}
             />
           </label>
         </div>
         <div className="form-elem form-elem__input-text">
-					<label htmlFor="login-pass">
-						<span className="label-text">Password:</span>
+          <label htmlFor="login-pass">
+            <span className="label-text">Password:</span>
             <input
               id="login-pass"
-							className="input-text"
+              className="input-text"
               type="password"
               value={password}
               name="Password"
-              onChange={({target}) => setPassword(target.value)}
+              onChange={({ target }) => setPassword(target.value)}
             />
           </label>
         </div>
@@ -70,7 +70,7 @@ const handleLogout = (e, setUser, setLoginNote, ls) => {
   ls.removeItem('blogAppUser');
   setUser(null);
   setLoginNote({
-    msg: `You are now logged out!`,
+    msg: 'You are now logged out!',
     type: 1,
     length: 5000,
     phase: 1,
@@ -89,7 +89,7 @@ const loginInfo = (user, setUser, setLoginNote, ls) => {
   );
 };
 
-const Login = ({user, setUser, setLoginNote, ls}) => {
+const Login = ({ user, setUser, setLoginNote, ls }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 

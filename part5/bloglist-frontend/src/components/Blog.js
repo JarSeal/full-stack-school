@@ -21,10 +21,10 @@ const handleLikeClick = async (e, blog, blogs, setBlogs, loadingLike, setLoading
     setLoadingLike(false);
   } catch (error) {
     setBlogNote({
-			msg: 'Error in saving like action.',
-			type: 3,
-			length: 0,
-			phase: 1,
+      msg: 'Error in saving like action.',
+      type: 3,
+      length: 0,
+      phase: 1,
     });
     setLoadingLike(false);
   }
@@ -65,7 +65,7 @@ const deleteButton = (user, blog, blogs, setBlogs, setBlogNote) => {
       }>delete</button>
     </div>
   );
-}
+};
 
 const Blog = ({ blog, blogs, setBlogs, setBlogNote, user }) => {
   const [loadingLike, setLoadingLike] = useState(false);
@@ -78,7 +78,7 @@ const Blog = ({ blog, blogs, setBlogs, setBlogNote, user }) => {
         <span className='likes-big'>{blog.likes}<span>likes</span></span>
       </h3>
       <Togglable label='info' keepButtonVisible='true'>
-        <div style={{paddingBottom: '12px'}}>
+        <div style={{ paddingBottom: '12px' }}>
           <div className='info-row'>
             <span className='info-row__label'>URL: </span><a href={blog.url}>{blog.url}</a>
           </div>

@@ -13,7 +13,7 @@ const App = () => {
   const blogRef = useRef();
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [note, setNote] = useState({msg:'', type:0, length:0, phase:0});
+  const [note, setNote] = useState({ msg:'', type:0, length:0, phase:0 });
 
   useEffect(() => {
     ls.initLocalStorage();
