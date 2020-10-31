@@ -24,6 +24,7 @@
 }
 .toggle-button {
 	margin-bottom: 12px;
+	outline: none;
 }
 .form-elem__submit > button + button {
 	margin-left: 6px;

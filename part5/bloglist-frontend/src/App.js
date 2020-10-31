@@ -54,7 +54,9 @@ const App = () => {
       <div className='blog-list'>
         {user !== null && blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
-        ).reverse()}
+        ).sort(function (a, b) {
+          return a.likes - b.likes;
+        })}
       </div>
       <footer style={{
         opacity: 0.2, fontSize: '12px', textAlign: 'center', marginTop: '-18px', marginBottom: '50px'

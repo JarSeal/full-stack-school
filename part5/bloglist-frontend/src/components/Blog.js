@@ -2,21 +2,27 @@ import React from 'react';
 import Togglable from './Togglable';
 import './Blog.css';
 
+const handleLikeClick = (e) => {
+
+};
+
 const Blog = ({ blog }) => {
   return (
     <div className='blog-item'>
       <h3>
         {blog.title}
         <span className='author'>by {blog.author || blog.user.name}</span>
-        <span className='likes-big'>{blog.likes || ''}</span>
+        <span className='likes-big'>{blog.likes}<span>likes</span></span>
       </h3>
-      <Togglable label='info'>
+      <Togglable label='info' keepButtonVisible='true'>
         <div style={{paddingBottom: '12px'}}>
           <div className='info-row'>
             <span className='info-row__label'>URL: </span><a href={blog.url}>{blog.url}</a>
           </div>
           <div className='info-row'>
-            <span className='info-row__label'>Likes: </span>{blog.likes} <button className='like-button'>like</button>
+            <span className='info-row__label'>Likes: </span>
+            {blog.likes}
+            <button className='like-button'>like</button>
           </div>
           <div className='info-row'>
             <span className='info-row__label'>Creator: </span>{blog.user.name}

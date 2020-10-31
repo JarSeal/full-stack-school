@@ -44,10 +44,22 @@
   right: 0;
   font-size: 48px;
   opacity: 0.2;
+  padding-right: 20px;
+}
+.blog-item > h3 span.likes-big span {
+  position: absolute;
+  top: 21px;
+  right: -12px;
+  transform: rotate(90deg);
+  font-size: 12px;
+  text-transform: uppercase;
 }
 .blog-item .togglable {
   min-height: 12px;
   position: relative;
+}
+.blog-item .toggle-area {
+  transform: translateY(12px);
 }
 .blog-item .toggle-button {
   border-radius: 0 0 4px 4px;
@@ -56,6 +68,7 @@
   top: -14px;
   position: absolute;
   border-color: transparent;
+  background-color: #ccc;
 }
 .blog-item a,
 .blog-item a:visited {
