@@ -30,7 +30,44 @@ const handleLikeClick = async (e, blog, blogs, setBlogs, loadingLike, setLoading
   }
 };
 
-const Blog = ({ blog, blogs, setBlogs, setBlogNote }) => {
+const handleDeleteClick = (e, blog, blogs, setBlogs, setBlogNote) => {
+  setBlogNote({
+    msg: `Delete blog: ${blog.title}?`,
+    type: 4,
+    length: 0,
+    phase: 1,
+    action: async () => {
+      try {
+        await blogService.deleteBlog(blog.id);
+        let updatedList = blogs.filter((b) => {
+          if(b.id !== blog.id) return b;
+          return null;
+        });
+        setBlogs(updatedList);
+      } catch (error) {
+        setBlogNote({
+          msg: 'Error in deleting blog.',
+          type: 3,
+          length: 0,
+          phase: 1,
+        });
+      }
+    }
+  });
+};
+
+const deleteButton = (user, blog, blogs, setBlogs, setBlogNote) => {
+  if(!user) return null;
+  return (
+    <div className='info-row align-right'>
+      <button className='delete-button' onClick={
+        (e) => handleDeleteClick(e, blog, blogs, setBlogs, setBlogNote)
+      }>delete</button>
+    </div>
+  );
+}
+
+const Blog = ({ blog, blogs, setBlogs, setBlogNote, user }) => {
   const [loadingLike, setLoadingLike] = useState(false);
 
   return (
@@ -57,6 +94,7 @@ const Blog = ({ blog, blogs, setBlogs, setBlogNote }) => {
           <div className='info-row'>
             <span className='info-row__label'>Creator: </span>{blog.user.name}
           </div>
+          {deleteButton(user, blog, blogs, setBlogs, setBlogNote)}
         </div>
       </Togglable>
     </div>

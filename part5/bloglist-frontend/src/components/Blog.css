@@ -90,9 +90,16 @@
   color: #777;
   font-size: 14px;
 }
+.info-row.align-right {
+  text-align: right;
+}
+.info-row .delete-button {
+  margin-top: -36px;
+  margin-bottom: 8px;
+}
 
 .blog-item .toggle-area.visi-false.phase-2,
 .blog-item .toggle-area.visi-false.phase-3,
 .blog-item .toggle-area.visi-true.phase-1 {
-  max-height: 90px;
+  max-height: 126px;
 }
