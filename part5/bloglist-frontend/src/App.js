@@ -52,11 +52,11 @@ const App = () => {
         </Togglable>
       }
       <div className='blog-list'>
-        {user !== null && blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        ).sort(function (a, b) {
-          return a.likes - b.likes;
-        })}
+        {user !== null && blogs.sort(function (a, b) {
+          return b.likes - a.likes;
+        }).map(blog =>
+          <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} setBlogNote={setNote} />
+        )}
       </div>
       <footer style={{
         opacity: 0.2, fontSize: '12px', textAlign: 'center', marginTop: '-18px', marginBottom: '50px'

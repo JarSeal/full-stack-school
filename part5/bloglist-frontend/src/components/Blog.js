@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
+import blogService from './../services/blogs';
 import Togglable from './Togglable';
 import './Blog.css';
 
-const handleLikeClick = (e) => {
-
+const handleLikeClick = async (e, blog, blogs, setBlogs, loadingLike, setLoadingLike, setBlogNote) => {
+  if(loadingLike) return;
+  setLoadingLike(true);
+  try {
+    const userId = blog.user.id;
+    const newLikes = blog.likes + 1;
+    const body = Object.assign({}, blog, { user: userId, likes: newLikes });
+    blog.likes = newLikes;
+    await blogService.likeBlog(body);
+    let updatedList = blogs.filter((b) => {
+      if(b.id !== blog.id) return b;
+      return null;
+    });
+    updatedList = updatedList.concat(blog);
+    setBlogs(updatedList);
+    setLoadingLike(false);
+  } catch (error) {
+    setBlogNote({
+			msg: 'Error in saving like action.',
+			type: 3,
+			length: 0,
+			phase: 1,
+    });
+    setLoadingLike(false);
+  }
 };
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, blogs, setBlogs, setBlogNote }) => {
+  const [loadingLike, setLoadingLike] = useState(false);
+
   return (
     <div className='blog-item'>
       <h3>
@@ -22,7 +48,11 @@ const Blog = ({ blog }) => {
           <div className='info-row'>
             <span className='info-row__label'>Likes: </span>
             {blog.likes}
-            <button className='like-button'>like</button>
+            <button
+              className={loadingLike ? 'like-button loading' : 'like-button'}
+              onClick={(e) => handleLikeClick(e, blog, blogs, setBlogs, loadingLike, setLoadingLike, setBlogNote)}>
+              {loadingLike ? 'saving..' : 'like'}
+            </button>
           </div>
           <div className='info-row'>
             <span className='info-row__label'>Creator: </span>{blog.user.name}
