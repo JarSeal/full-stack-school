@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import blogService from './../services/blogs';
 
 const handleCreateNew = async (
@@ -113,6 +114,12 @@ const CreateBlog = ({ setBlogNote, setBlogs, blogs, blogRef }) => {
       </form>
     </div>
   );
+};
+
+CreateBlog.propTypes = {
+  blogs: PropTypes.array.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  setBlogNote: PropTypes.func.isRequired
 };
 
 export default CreateBlog;

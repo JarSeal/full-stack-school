@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import blogService from './../services/blogs';
 import Togglable from './Togglable';
 import './Blog.css';
@@ -99,6 +100,23 @@ const Blog = ({ blog, blogs, setBlogs, setBlogNote, user }) => {
       </Togglable>
     </div>
   );
+};
+
+Blog.propTypes = {
+  blog: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    author: PropTypes.string,
+    user: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+      name: PropTypes.string
+    })
+  }),
+  blogs: PropTypes.array.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  setBlogNote: PropTypes.func.isRequired
 };
 
 export default Blog;

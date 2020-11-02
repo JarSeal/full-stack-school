@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './NotificationBox.css';
 
 let timer;
@@ -86,6 +87,16 @@ const NotificationBox = ({ note, setNote }) => {
       {template}
     </div>
   </div>;
+};
+
+NotificationBox.propTypes = {
+  note: PropTypes.shape({
+    msg: PropTypes.string.isRequired,
+    type: PropTypes.number.isRequired,
+    length: PropTypes.number.isRequired,
+    phase: PropTypes.number.isRequired
+  }),
+  setNote: PropTypes.func.isRequired
 };
 
 export default NotificationBox;
