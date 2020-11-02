@@ -30,11 +30,11 @@ const Togglable = React.forwardRef((props, ref) => {
   };
 
   return (
-    <div className='togglable' style={{position: 'relative', maxWidth: '960px'}}>
-      <div style={{display: (visible || (!visible && phaser !== 0)) && !props.keepButtonVisible ? 'none' : ''}}>
+    <div className='togglable' style={{ position: 'relative', maxWidth: '960px' }}>
+      <div style={{ display: (visible || (!visible && phaser !== 0)) && !props.keepButtonVisible ? 'none' : '' }}>
         <button onClick={toggleVisibility} className='toggle-button'>{props.label}</button>
       </div>
-      <div className={setAreaClass(phaser, visible)} style={{transitionDuration: '600ms'}}>
+      <div className={setAreaClass(phaser, visible)} style={{ transitionDuration: '600ms' }}>
         <div style={{
           position: 'absolute',
           top: '5px',
@@ -51,6 +51,6 @@ const Togglable = React.forwardRef((props, ref) => {
   );
 });
 
-// Togglable.displayName = 'Togglable';
+Togglable.displayName = 'Togglable';
 
 export default Togglable;

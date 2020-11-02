@@ -22,7 +22,7 @@ const handleCreateNew = async (
     });
     if(blogRef) blogRef.current.toggleVisibility();
   } catch (error) {
-    if(error.response.status === 400 && error.response.data.errors !== undefined) {
+    if(error.response && error.response.status === 400 && error.response.data.errors !== undefined) {
       const errors = error.response.data.errors;
       if(errors.title !== undefined) {
         setBlogNote({

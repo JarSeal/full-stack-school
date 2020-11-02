@@ -10,8 +10,8 @@ const handleLikeClick = async (e, blog, blogs, setBlogs, loadingLike, setLoading
     const userId = blog.user.id;
     const newLikes = blog.likes + 1;
     const body = Object.assign({}, blog, { user: userId, likes: newLikes });
-    blog.likes = newLikes;
     await blogService.likeBlog(body);
+    blog.likes = newLikes;
     let updatedList = blogs.filter((b) => {
       if(b.id !== blog.id) return b;
       return null;
