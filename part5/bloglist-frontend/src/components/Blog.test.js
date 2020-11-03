@@ -1,11 +1,10 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import Blog from './Blog';
-
 import fs from 'fs';
 import path from 'path';
-import { act } from 'react-dom/test-utils';
 
 let component;
 

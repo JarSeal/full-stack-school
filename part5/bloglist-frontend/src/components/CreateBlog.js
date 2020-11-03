@@ -1,68 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import blogService from './../services/blogs';
 
-const handleCreateNew = async (
-  e, title, author, url, setBlogNote, setTitle, setAuthor, setUrl, setBlogs, blogs, blogRef
-) => {
-  e.preventDefault();
-  try {
-    const result = await blogService.newBlog({
-      title, author, url
-    });
-    const newBlogs = blogs.concat(result);
-    setBlogs(newBlogs);
-    setTitle('');
-    setAuthor('');
-    setUrl('');
-    setBlogNote({
-      msg: `New blog (${title}) saved!`,
-      type: 1,
-      length: 5000,
-      phase: 1,
-    });
-    if(blogRef) blogRef.current.toggleVisibility();
-  } catch (error) {
-    if(error.response && error.response.status === 400 && error.response.data.errors !== undefined) {
-      const errors = error.response.data.errors;
-      if(errors.title !== undefined) {
-        setBlogNote({
-          msg: 'Title cannot be empty.',
-          type: 2,
-          length: 5000,
-          phase: 1,
-        });
-        return;
-      } else if(errors.url !== undefined) {
-        setBlogNote({
-          msg: 'URL cannot be empty.',
-          type: 2,
-          length: 5000,
-          phase: 1,
-        });
-        return;
-      }
-    }
-    setBlogNote({
-      msg: 'Error, could not create new blog!',
-      type: 3,
-      length: 0,
-      phase: 1,
-    });
-  }
-};
-
-const CreateBlog = ({ setBlogNote, setBlogs, blogs, blogRef }) => {
+const CreateBlog = ({ handleCreateNew, blogRef }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
 
+  const addBlog = (e) => {
+    e.preventDefault();
+    handleCreateNew(title, author, url, setTitle, setAuthor, setUrl);
+  };
+
   return (
     <div className='create-blog-form form-wrapper'>
       <h3>Create new blog</h3>
-      <form onSubmit={(e) => handleCreateNew(
-        e, title, author, url, setBlogNote, setTitle, setAuthor, setUrl, setBlogs, blogs, blogRef
-      )}>
+      <form onSubmit={addBlog} id='new-blog-form'>
         <div className='form-elem form-elem__input-text'>
           <label htmlFor='create-title'>
             <span className='label-text'>Title *</span>
@@ -117,9 +69,8 @@ const CreateBlog = ({ setBlogNote, setBlogs, blogs, blogRef }) => {
 };
 
 CreateBlog.propTypes = {
-  blogs: PropTypes.array.isRequired,
-  setBlogs: PropTypes.func.isRequired,
-  setBlogNote: PropTypes.func.isRequired
+  handleCreateNew: PropTypes.func.isRequired,
+  blogRef: PropTypes.object.isRequired
 };
 
 export default CreateBlog;

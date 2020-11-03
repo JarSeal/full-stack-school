@@ -81,6 +81,55 @@ const App = () => {
     });
   };
 
+  const handleCreateNew = async (
+    title, author, url, setTitle, setAuthor, setUrl
+  ) => {
+    try {
+      const result = await blogService.newBlog({
+        title, author, url
+      });
+      const newBlogs = blogs.concat(result);
+      setBlogs(newBlogs);
+      setTitle('');
+      setAuthor('');
+      setUrl('');
+      setNote({
+        msg: `New blog (${title}) saved!`,
+        type: 1,
+        length: 5000,
+        phase: 1,
+      });
+      if(blogRef) blogRef.current.toggleVisibility();
+    } catch (error) {
+      if(error.response && error.response.status === 400 && error.response.data.errors !== undefined) {
+        const errors = error.response.data.errors;
+        if(errors.title !== undefined) {
+          setNote({
+            msg: 'Title cannot be empty.',
+            type: 2,
+            length: 5000,
+            phase: 1,
+          });
+          return;
+        } else if(errors.url !== undefined) {
+          setNote({
+            msg: 'URL cannot be empty.',
+            type: 2,
+            length: 5000,
+            phase: 1,
+          });
+          return;
+        }
+      }
+      setNote({
+        msg: 'Error, could not create new blog!',
+        type: 3,
+        length: 0,
+        phase: 1,
+      });
+    }
+  };
+
   return (
     <div style={{
       fontFamily:'sans-serif',
@@ -98,9 +147,7 @@ const App = () => {
       {user !== null &&
         <Togglable label='+ New blog' ref={blogRef}>
           <CreateBlog
-            setBlogNote={setNote}
-            setBlogs={setBlogs}
-            blogs={blogs}
+            handleCreateNew={handleCreateNew}
             blogRef={blogRef} />
         </Togglable>
       }
