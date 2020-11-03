@@ -59,7 +59,7 @@ const loginForm = (username, password, setUser, setUsername, setPassword, setLog
           </label>
         </div>
         <div className="form-elem form-elem__submit">
-          <button type="submit">login</button>
+          <button type="submit" id="login-button">login</button>
         </div>
       </form>
     </div>

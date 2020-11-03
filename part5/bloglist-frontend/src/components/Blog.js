@@ -39,7 +39,7 @@ const Blog = ({ blog, handleLikeClick, handleDeleteClick, user }) => {
             </button>
           </div>
           <div className='info-row'>
-            <span className='info-row__label'>Creator: </span>{blog.user.name}
+            <span className='info-row__label'>Creator: </span>{blog.user && blog.user.name ? blog.user.name : '--'}
           </div>
           {deleteButton(user, blog, handleDeleteClick)}
         </div>
