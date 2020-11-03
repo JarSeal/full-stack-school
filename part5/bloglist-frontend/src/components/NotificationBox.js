@@ -63,12 +63,12 @@ const NotificationBox = ({ note, setNote }) => {
         <button
           onClick={() => handleConfirmation(note, setNote, transitionT)}
           title='Confirm'
-          className='notification__button'
+          className='notification__button notification__button--confirm'
           key='confirm-button'>Confirm</button>&nbsp;
         <button
           onClick={() => setNote({ ...note, phase: 3 })}
           title='Cancel'
-          className='notification__button'
+          className='notification__button notification__button--cancel'
           key='cancel-button'>Cancel</button>
       </div>);
     }
