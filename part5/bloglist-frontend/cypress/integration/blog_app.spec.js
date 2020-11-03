@@ -34,4 +34,22 @@ describe('Blog app ', function() {
         .and('have.css', 'background-color', 'rgb(255, 191, 69)');
     });
   });
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'root', password: 'sekret' });
+    });
+
+    it('A blog can be created', function() {
+      cy.get('.toggle-button').click();
+      cy.contains('Create new blog');
+      cy.get('#create-title').type('My First Blog');
+      cy.get('#create-author').type('John Dow Jones');
+      cy.get('#create-url').type('http://www.dummytext.com');
+      cy.get('#create-new-button').click();
+      cy.get('.blog-list')
+        .should('contain', 'My First Blog')
+        .and('contain', 'John Dow Jones');
+    });
+  });
 });

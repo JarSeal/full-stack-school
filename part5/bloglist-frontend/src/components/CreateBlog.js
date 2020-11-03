@@ -55,7 +55,7 @@ const CreateBlog = ({ handleCreateNew, blogRef }) => {
           </label>
         </div>
         <div className='form-elem form-elem__submit'>
-          <button type='submit'>Create new</button>
+          <button type='submit' id='create-new-button'>Create new</button>
           {blogRef &&
             <button
               type='button'
