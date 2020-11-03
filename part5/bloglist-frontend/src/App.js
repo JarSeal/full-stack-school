@@ -28,6 +28,59 @@ const App = () => {
     );
   }, []);
 
+  const handleLikeClick = async (blog, loadingLike, setLoadingLike) => {
+    if(loadingLike) return;
+    setLoadingLike(true);
+    try {
+      const userId = blog.user.id;
+      const newLikes = blog.likes + 1;
+      const body = Object.assign({}, blog, { user: userId, likes: newLikes });
+      await blogService.likeBlog(body);
+      blog.likes = newLikes;
+      let updatedList = blogs.filter((b) => {
+        if(b.id !== blog.id) return b;
+        return null;
+      });
+      updatedList = updatedList.concat(blog);
+      setBlogs(updatedList);
+      setLoadingLike(false);
+    } catch (error) {
+      setNote({
+        msg: 'Error in saving like action.',
+        type: 3,
+        length: 0,
+        phase: 1,
+      });
+      setLoadingLike(false);
+    }
+  };
+
+  const handleDeleteClick = (blog) => {
+    setNote({
+      msg: `Delete blog: ${blog.title}?`,
+      type: 4,
+      length: 0,
+      phase: 1,
+      action: async () => {
+        try {
+          await blogService.deleteBlog(blog.id);
+          let updatedList = blogs.filter((b) => {
+            if(b.id !== blog.id) return b;
+            return null;
+          });
+          setBlogs(updatedList);
+        } catch (error) {
+          setNote({
+            msg: 'Error in deleting blog.',
+            type: 3,
+            length: 0,
+            phase: 1,
+          });
+        }
+      }
+    });
+  };
+
   return (
     <div style={{
       fontFamily:'sans-serif',
@@ -55,7 +108,12 @@ const App = () => {
         {blogs.sort((a, b) => {
           return b.likes - a.likes;
         }).map(blog =>
-          <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} setBlogNote={setNote} user={user} />
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleLikeClick={handleLikeClick}
+            handleDeleteClick={handleDeleteClick}
+            user={user} />
         )}
       </div>
       <footer style={{
