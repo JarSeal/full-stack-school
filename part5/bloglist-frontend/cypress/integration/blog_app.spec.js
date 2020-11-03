@@ -101,6 +101,23 @@ describe('Blog app ', function() {
         .should('contain', 'Error in deleting blog.');
     });
 
-    
+    it('The blog list is sorted by likes and the most on top', function() {
+      cy.createBlog({
+        title: 'Twenty likes blog', url: 'http://www.dummytext.com', likes: 20
+      });
+      cy.createBlog({
+        title: 'Two likes blog', url: 'http://www.dummytext.com', likes: 2
+      });
+      cy.createBlog({
+        title: 'Five likes blog', url: 'http://www.dummytext.com', likes: 5
+      });
+      cy.createBlog({
+        title: 'Ninety likes blog', url: 'http://www.dummytext.com', likes: 90
+      });
+      cy.get('.blog-list .blog-item').eq(0).should('contain', 'Ninety likes blog');
+      cy.get('.blog-list .blog-item').eq(1).should('contain', 'Twenty likes blog');
+      cy.get('.blog-list .blog-item').eq(2).should('contain', 'Five likes blog');
+      cy.get('.blog-list .blog-item').eq(3).should('contain', 'Two likes blog');
+    });
   });
 });
