@@ -8,7 +8,7 @@ const deleteButton = (user, blog, handleDeleteClick) => {
   return (
     <div className='info-row align-right'>
       <button className='delete-button' onClick={
-        (e) => handleDeleteClick(blog)
+        () => handleDeleteClick(blog)
       }>delete</button>
     </div>
   );
@@ -34,7 +34,7 @@ const Blog = ({ blog, handleLikeClick, handleDeleteClick, user }) => {
             {blog.likes}
             <button
               className={loadingLike ? 'like-button loading' : 'like-button'}
-              onClick={(e) => handleLikeClick(blog, loadingLike, setLoadingLike)}>
+              onClick={() => handleLikeClick(blog, loadingLike, setLoadingLike)}>
               {loadingLike ? 'saving..' : 'like'}
             </button>
           </div>

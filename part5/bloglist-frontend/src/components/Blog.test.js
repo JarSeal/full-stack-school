@@ -16,11 +16,11 @@ beforeEach(() => {
 
 const createStyles = (component) => {
   const cssFile = fs.readFileSync(
-    path.resolve(__dirname, './Blog.css'),
+    path.resolve('', './src/components/Blog.css'),
     'utf8'
   );
   const cssFile2 = fs.readFileSync(
-    path.resolve(__dirname, './Togglable.css'),
+    path.resolve('', './src/components/Togglable.css'),
     'utf8'
   );
   const style = document.createElement('style');
@@ -30,17 +30,17 @@ const createStyles = (component) => {
 };
 
 const blog = {
-    id: 'someblogid',
-    title: 'Some blog title',
-    author: 'Tester Author',
-    url: 'http://www.dummytext.com',
-    likes: 2,
-    user: {
-      id: 'someuserid',
-      username: 'someUsername',
-      name: 'John Dow Jones'
-    }
-  };
+  id: 'someblogid',
+  title: 'Some blog title',
+  author: 'Tester Author',
+  url: 'http://www.dummytext.com',
+  likes: 2,
+  user: {
+    id: 'someuserid',
+    username: 'someUsername',
+    name: 'John Dow Jones'
+  }
+};
 
 test('renders Blog component', () => {
   act(() => {
