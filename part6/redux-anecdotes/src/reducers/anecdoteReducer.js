@@ -33,19 +33,17 @@ export const createAnecdote = (content) => {
 export const voteAnecdote = (id) => {
   return {
     type: 'VOTE_ANECDOTE',
-    data: {
-      id
-    }
+    id
   };
 };
 
-const reducer = (state = initialState, action) => {
+const anecdoteReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'NEW_ANECDOTE':
       return [ ...state, action.data ];
     case 'VOTE_ANECDOTE':
       const newState = state.map(anecdote => {
-        if(anecdote.id === action.data.id) anecdote.votes = anecdote.votes + 1;
+        if(anecdote.id === action.id) anecdote.votes = anecdote.votes + 1;
         return anecdote;
       });
       return newState;
@@ -54,4 +52,4 @@ const reducer = (state = initialState, action) => {
   };
 };
 
-export default reducer;
+export default anecdoteReducer;
