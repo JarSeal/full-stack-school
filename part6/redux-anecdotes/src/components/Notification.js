@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearNotification } from '../reducers/notificationReducer';
 
 let timer;
+const DEFAULT_TIME = 5000;
 
 const Notification = () => {
   const notification = useSelector(state => state.notification);
@@ -12,6 +13,7 @@ const Notification = () => {
     padding: 10,
     color: '#fff',
     marginTop: '10px',
+    marginBottom: '10px',
     borderWidth: 1
   };
 
@@ -32,7 +34,7 @@ const Notification = () => {
   if(notification.type !== 0) {
     timer = setTimeout(() => {
       dispatch(clearNotification());
-    }, 5000);
+    }, notification.time * 1000 || DEFAULT_TIME);
   }
 
   return (

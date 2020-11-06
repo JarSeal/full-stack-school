@@ -6,13 +6,13 @@ import { newNotification } from '../reducers/notificationReducer';
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
 
-  const addAnecdote = (event) => {
+  const addAnecdote = async (event) => {
     event.preventDefault();
     if(!event.target.anecdote.value.trim().length) {
       dispatch(newNotification({
         msg: 'You need to write something..',
         type: 2
-      }));
+      }, 2));
       return;
     };
     const content = event.target.anecdote.value;
@@ -21,7 +21,7 @@ const AnecdoteForm = () => {
     dispatch(newNotification({
       msg: 'Created new anecdote: \'' + content + '\'',
       type: 1
-    }));
+    }, 8));
   };
 
   return (

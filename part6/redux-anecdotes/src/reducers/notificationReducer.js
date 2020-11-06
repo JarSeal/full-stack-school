@@ -1,12 +1,15 @@
 const initState = {
   msg: '',
-  type: 0
+  type: 0,
+  time: 5000
 };
 
-export const newNotification = (content) => {
+export const newNotification = (content, time) => {
   return {
     type: 'NEW_NOTIFICATION',
-    data: content
+    data: time !== undefined
+      ? { ...content, time }
+      : content
   };
 };
 

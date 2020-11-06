@@ -11,11 +11,12 @@ const Filter = () => {
   };
 
   return (
-    <div className='filter'>
+    <div className='filter' style={{marginBottom: '10px'}}>
       <input
         type='text'
         name='filterInput'
         value={filter}
+        placeholder='Filter'
         onChange={({ target }) => handleFilter(target.value)} />
       {filter.trim().length !== 0 && <button onClick={() => dispatch(clearFilter())}>x</button>}
     </div>
