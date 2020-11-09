@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Switch, Route, Link, useRouteMatch, useHistory } from "react-router-dom";
+import  { useField } from './hooks';
 import NotificationBox from './components/NotificationBox';
 
 const Menu = () => {
@@ -62,14 +63,17 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('');
-  const [author, setAuthor] = useState('');
-  const [info, setInfo] = useState('');
+  // const [content, setContent] = useState('');
+  // const [author, setAuthor] = useState('');
+  // const [info, setInfo] = useState('');
   const history = useHistory();
+  const content = useField('text');
+  const author = useField('text');
+  const info = useField('text');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(!content.trim().length) {
+    if(!content.inputProps.value.trim().length) {
       props.setNotification({
         msg: 'Content cannot be empty',
         type: 2,
@@ -78,7 +82,7 @@ const CreateNew = (props) => {
       });
       return;
     }
-    if(!author.trim().length) {
+    if(!author.inputProps.value.trim().length) {
       props.setNotification({
         msg: 'Author cannot be empty',
         type: 2,
@@ -88,18 +92,25 @@ const CreateNew = (props) => {
       return;
     }
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.inputProps.value,
+      author: author.inputProps.value,
+      info: info.inputProps.value,
       votes: 0
     });
     history.push('/');
     props.setNotification({
-      msg: `A new anecdote '${content}' created!`,
+      msg: `A new anecdote '${content.inputProps.value}' created!`,
       type: 1,
       length: 10000,
       phase: 1
     });
+  };
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    content.reset();
+    author.reset();
+    info.reset();
   };
 
   return (
@@ -108,17 +119,18 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           Content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input { ...content.inputProps } />
         </div>
         <div>
           Author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input { ...author.inputProps } />
         </div>
         <div>
           URL for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input { ...info.inputProps } />
         </div>
         <button>Create</button>
+        <button onClick={(e) => { handleReset(e) }}>Reset</button>
       </form>
     </div>
   );
@@ -150,19 +162,19 @@ const App = () => {
     setAnecdotes(anecdotes.concat(anecdote));
   };
 
-  const anecdoteById = (id) =>
-    anecdotes.find(a => a.id === id);
+  // const anecdoteById = (id) =>
+  //   anecdotes.find(a => a.id === id);
 
-  const vote = (id) => {
-    const anecdote = anecdoteById(id);
+  // const vote = (id) => {
+  //   const anecdote = anecdoteById(id);
 
-    const voted = {
-      ...anecdote,
-      votes: anecdote.votes + 1
-    };
+  //   const voted = {
+  //     ...anecdote,
+  //     votes: anecdote.votes + 1
+  //   };
 
-    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a));
-  };
+  //   setAnecdotes(anecdotes.map(a => a.id === id ? voted : a));
+  // };
 
   const match = useRouteMatch('/:id');
   const anecdote = match 
