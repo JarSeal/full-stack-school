@@ -63,9 +63,6 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  // const [content, setContent] = useState('');
-  // const [author, setAuthor] = useState('');
-  // const [info, setInfo] = useState('');
   const history = useHistory();
   const content = useField('text');
   const author = useField('text');
@@ -73,7 +70,7 @@ const CreateNew = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(!content.inputProps.value.trim().length) {
+    if(!content.value.trim().length) {
       props.setNotification({
         msg: 'Content cannot be empty',
         type: 2,
@@ -82,7 +79,7 @@ const CreateNew = (props) => {
       });
       return;
     }
-    if(!author.inputProps.value.trim().length) {
+    if(!author.value.trim().length) {
       props.setNotification({
         msg: 'Author cannot be empty',
         type: 2,
@@ -92,14 +89,14 @@ const CreateNew = (props) => {
       return;
     }
     props.addNew({
-      content: content.inputProps.value,
-      author: author.inputProps.value,
-      info: info.inputProps.value,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     });
     history.push('/');
     props.setNotification({
-      msg: `A new anecdote '${content.inputProps.value}' created!`,
+      msg: `A new anecdote '${content.value}' created!`,
       type: 1,
       length: 10000,
       phase: 1
@@ -130,7 +127,7 @@ const CreateNew = (props) => {
           <input { ...info.inputProps } />
         </div>
         <button>Create</button>
-        <button onClick={(e) => { handleReset(e) }}>Reset</button>
+        <button onClick={handleReset}>Reset</button>
       </form>
     </div>
   );
@@ -161,20 +158,6 @@ const App = () => {
     anecdote.id = (Math.random() * 10000).toFixed(0);
     setAnecdotes(anecdotes.concat(anecdote));
   };
-
-  // const anecdoteById = (id) =>
-  //   anecdotes.find(a => a.id === id);
-
-  // const vote = (id) => {
-  //   const anecdote = anecdoteById(id);
-
-  //   const voted = {
-  //     ...anecdote,
-  //     votes: anecdote.votes + 1
-  //   };
-
-  //   setAnecdotes(anecdotes.map(a => a.id === id ? voted : a));
-  // };
 
   const match = useRouteMatch('/:id');
   const anecdote = match 
