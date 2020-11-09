@@ -1,13 +1,12 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { filterChange, clearFilter } from '../reducers/filterReducer';
 
-const Filter = () => {
-  const filter = useSelector(state => state.filter);
-  const dispatch = useDispatch();
+const Filter = (props) => {
+  const filter = props.filter;
 
   const handleFilter = (value) => {
-    dispatch(filterChange(value));
+    props.filterChange(value);
   };
 
   return (
@@ -18,9 +17,24 @@ const Filter = () => {
         value={filter}
         placeholder='Filter'
         onChange={({ target }) => handleFilter(target.value)} />
-      {filter.trim().length !== 0 && <button onClick={() => dispatch(clearFilter())}>x</button>}
+      {filter.trim().length !== 0 && <button onClick={() => props.clearFilter()}>x</button>}
     </div>
   );
 };
 
-export default Filter;
+const mapDispatchToProps = {
+  filterChange,
+  clearFilter
+};
+
+const mapStateToProps = (state) => {
+  return {
+    filter: state.filter,
+  };
+};
+
+const ConnectedFilter = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Filter);
+export default ConnectedFilter;
