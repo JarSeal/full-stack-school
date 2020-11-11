@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { newNotification } from './reducers/notificationReducer';
 import Blog from './components/Blog';
 import Login from './components/Login';
 import NotificationBox from './components/NotificationBox';
@@ -10,10 +12,10 @@ import './styles/form-elements.css';
 import './styles/buttons.css';
 
 const App = () => {
+  const dispatch = useDispatch();
   const blogRef = useRef();
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [note, setNote] = useState({ msg: '', type: 0, length: 0, phase :0 });
 
   useEffect(() => {
     ls.initLocalStorage();
@@ -45,22 +47,20 @@ const App = () => {
       setBlogs(updatedList);
       setLoadingLike(false);
     } catch (error) {
-      setNote({
+      dispatch(newNotification({
         msg: 'Error in saving like action.',
         type: 3,
         length: 0,
-        phase: 1,
-      });
+      }));
       setLoadingLike(false);
     }
   };
 
   const handleDeleteClick = (blog) => {
-    setNote({
+    dispatch(newNotification({
       msg: `Delete blog: ${blog.title}?`,
       type: 4,
       length: 0,
-      phase: 1,
       action: async () => {
         try {
           await blogService.deleteBlog(blog.id);
@@ -70,15 +70,14 @@ const App = () => {
           });
           setBlogs(updatedList);
         } catch (error) {
-          setNote({
+          dispatch(newNotification({
             msg: 'Error in deleting blog.',
             type: 3,
             length: 0,
-            phase: 1,
-          });
+          }));
         }
       }
-    });
+    }));
   };
 
   const handleCreateNew = async (
@@ -93,40 +92,33 @@ const App = () => {
       setTitle('');
       setAuthor('');
       setUrl('');
-      setNote({
+      dispatch(newNotification({
         msg: `New blog (${title}) saved!`,
         type: 1,
-        length: 5000,
-        phase: 1,
-      });
+      }));
       if(blogRef) blogRef.current.toggleVisibility();
     } catch (error) {
       if(error.response && error.response.status === 400 && error.response.data.errors !== undefined) {
         const errors = error.response.data.errors;
         if(errors.title !== undefined) {
-          setNote({
+          dispatch(newNotification({
             msg: 'Title cannot be empty.',
             type: 2,
-            length: 5000,
-            phase: 1,
-          });
+          }));
           return;
         } else if(errors.url !== undefined) {
-          setNote({
+          dispatch(newNotification({
             msg: 'URL cannot be empty.',
             type: 2,
-            length: 5000,
-            phase: 1,
-          });
+          }));
           return;
         }
       }
-      setNote({
+      dispatch(newNotification({
         msg: 'Error, could not create new blog!',
         type: 3,
         length: 0,
-        phase: 1,
-      });
+      }));
     }
   };
 
@@ -138,11 +130,10 @@ const App = () => {
       margin: '0 auto'
     }}>
       <h2>Blogs</h2>
-      <NotificationBox note={note} setNote={setNote} />
+      <NotificationBox />
       <Login
         user={user}
         setUser={setUser}
-        setLoginNote={setNote}
         ls={ls} />
       {user !== null &&
         <Togglable label='+ New blog' ref={blogRef}>
