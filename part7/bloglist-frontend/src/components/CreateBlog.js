@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createBlog } from '../reducers/blogReducer';
 import PropTypes from 'prop-types';
 
-const CreateBlog = ({ handleCreateNew, blogRef }) => {
+const CreateBlog = ({ blogRef }) => {
+  const blogs = useSelector(state => state.blogs);
+  const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
 
   const addBlog = (e) => {
     e.preventDefault();
-    handleCreateNew(title, author, url, setTitle, setAuthor, setUrl);
+    dispatch(createBlog(
+      { title, author, url }, blogs, blogRef, setTitle, setAuthor, setUrl
+    ));
   };
 
   return (
@@ -69,7 +75,6 @@ const CreateBlog = ({ handleCreateNew, blogRef }) => {
 };
 
 CreateBlog.propTypes = {
-  handleCreateNew: PropTypes.func.isRequired,
   blogRef: PropTypes.object.isRequired
 };
 

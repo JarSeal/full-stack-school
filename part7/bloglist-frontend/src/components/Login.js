@@ -1,42 +1,21 @@
 import React, { useState } from 'react';
-import loginService from './../services/login';
-import { useDispatch } from 'react-redux';
-import { newNotification } from '../reducers/notificationReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout } from '../reducers/userReducer';
 
-const Login = ({ user, setUser, ls }) => {
+const Login = ({ ls }) => {
+  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
 
-  const handleLogin = async (e, username, password, setUser, setUsername, setPassword, ls) => {
+  const handleLogin = (e, username, password, setUsername, setPassword, ls) => {
     e.preventDefault();
-    try {
-      const user = await loginService.login({
-        username, password,
-      });
-      setUser(user);
-      ls.setItem('blogAppUser', JSON.stringify(user));
-      setUsername('');
-      setPassword('');
-      dispatch(newNotification({
-        msg: `Welcome ${user.name}!`,
-        type: 1,
-        length: 5000,
-        phase: 1,
-      }));
-    } catch (exception) {
-      dispatch(newNotification({
-        msg: 'Wrong username or password!',
-        type: 2,
-        length: 5000,
-        phase: 1,
-      }));
-    }
+    dispatch(login({ username, password }, setUsername, setPassword, ls));
   };
 
-  const loginForm = (username, password, setUser, setUsername, setPassword, ls) => {
+  const loginForm = (username, password, setUsername, setPassword, ls) => {
     return (
       <div className="login-form form-wrapper">
         <h3>Login</h3>
-        <form onSubmit={(e) => handleLogin(e, username, password, setUser, setUsername, setPassword, ls)}>
+        <form onSubmit={(e) => handleLogin(e, username, password, setUsername, setPassword, ls)}>
           <div className="form-elem form-elem__input-text">
             <label htmlFor="login-user">
               <span className="label-text">Username:</span>
@@ -71,25 +50,22 @@ const Login = ({ user, setUser, ls }) => {
     );
   };
 
-  const handleLogout = (setUser, ls) => {
-    ls.removeItem('blogAppUser');
-    setUser(null);
-    dispatch(newNotification({
-      msg: 'You are now logged out!',
-      type: 1,
-      length: 5000,
-      phase: 1,
-    }));
+  const handleLogout = (ls) => {
+    console.log('Getting before logout', user);
+    dispatch(logout(ls));
+    setTimeout(() => {
+      console.log('Getting after logout', user);
+    }, 2000);
   };
 
-  const loginInfo = (user, setUser, ls) => {
+  const loginInfo = (user, ls) => {
     return (
       <div className="logged-in-bar" style={{
         marginBottom: '12px', paddingBottom: '8px', borderBottom: '2px dashed #bbb'
       }}>
         {user.name} logged in
         &nbsp;
-        <button onClick={() => handleLogout(setUser, ls)}>logout</button>
+        <button onClick={() => handleLogout(ls)}>logout</button>
       </div>
     );
   };
@@ -100,8 +76,8 @@ const Login = ({ user, setUser, ls }) => {
   return (
     <div className="login-wrapper">
       { user === null
-        ? loginForm(username, password, setUser, setUsername, setPassword, ls)
-        : loginInfo(user, setUser, ls)
+        ? loginForm(username, password, setUsername, setPassword, ls)
+        : loginInfo(user, ls)
       }
     </div>
   );

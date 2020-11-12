@@ -1,21 +1,45 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { likeBlog, deleteBlog } from '../reducers/blogReducer';
+import { newNotification } from '../reducers/notificationReducer';
 import PropTypes from 'prop-types';
 import Togglable from './Togglable';
 import './Blog.css';
 
-const deleteButton = (user, blog, handleDeleteClick) => {
-  if(!user) return null;
-  return (
-    <div className='info-row align-right'>
-      <button className='delete-button' onClick={
-        () => handleDeleteClick(blog)
-      }>delete</button>
-    </div>
-  );
-};
-
-const Blog = ({ blog, handleLikeClick, handleDeleteClick, user }) => {
+const Blog = ({ blog }) => {
+  const blogs = useSelector(state => state.blogs);
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const [loadingLike, setLoadingLike] = useState(false);
+
+  const handleLikeClick = () => {
+    if(loadingLike) return;
+    setLoadingLike(true);
+    dispatch(likeBlog(blog, blogs));
+    setLoadingLike(false);
+  };
+
+  const handleDeleteClick = () => {
+    dispatch(newNotification({
+      msg: `Delete blog: ${blog.title}?`,
+      type: 4,
+      length: 0,
+      action: () => {
+        dispatch(deleteBlog(blog, blogs));
+      }
+    }));
+  };
+
+  const deleteButton = () => {
+    if(!user) return null;
+    return (
+      <div className='info-row align-right'>
+        <button className='delete-button' onClick={
+          () => handleDeleteClick()
+        }>delete</button>
+      </div>
+    );
+  };
 
   return (
     <div className='blog-item'>
@@ -60,8 +84,6 @@ Blog.propTypes = {
       name: PropTypes.string
     })
   }),
-  handleLikeClick: PropTypes.func.isRequired,
-  handleDeleteClick: PropTypes.func.isRequired,
 };
 
 export default Blog;

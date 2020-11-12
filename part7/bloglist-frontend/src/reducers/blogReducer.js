@@ -49,6 +49,12 @@ export const deleteBlog = (blog, blogs) => {
         if(b.id !== blog.id) return b;
         return null;
       });
+      setTimeout(() => {
+        dispatch(newNotification({
+          msg: `Blog '${blog.title}' removed.`,
+          type: 1
+        }));
+      }, 300);
     } catch (error) {
       updatedList = blogs;
       dispatch(newNotification({
