@@ -1,5 +1,5 @@
 .form-elem__submit > button,
-.logged-in-bar > button,
+.main-menu__logout,
 .cancel-button,
 .toggle-button,
 .like-button,
@@ -19,7 +19,7 @@
 	margin-left: 20%;
 }
 .form-elem__submit > button:hover,
-.logged-in-bar > button:hover,
+.main-menu__logout:hover,
 .toggle-button:hover {
 	background-color: #000;
 }
@@ -30,7 +30,7 @@
 .form-elem__submit > button + button {
 	margin-left: 6px;
 }
-.logged-in-bar > button {
+.main-menu__logout {
 	font-size: 11px;
 }
 
