@@ -4,6 +4,7 @@ import Blog from './Blog';
 import Login from './Login';
 import CreateBlog from './CreateBlog';
 import Togglable from './Togglable';
+import { BlogList } from './BlogStyles';
 
 const Blogs = ({ ls }) => {
   const user = useSelector(state => state.user);
@@ -18,7 +19,7 @@ const Blogs = ({ ls }) => {
           <CreateBlog blogRef={blogRef} />
         </Togglable>
       }
-      <div className='blog-list'>
+      <BlogList>
         {blogs.sort((a, b) => {
           return b.likes - a.likes;
         }).map(blog =>
@@ -26,7 +27,7 @@ const Blogs = ({ ls }) => {
             key={blog.id}
             blog={blog} />
         )}
-      </div>
+      </BlogList>
     </div>
   );
 };

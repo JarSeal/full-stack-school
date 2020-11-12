@@ -20,7 +20,7 @@
 }
 .form-elem__submit > button:hover,
 .main-menu__logout:hover,
-.toggle-button:hover {
+body .toggle-button:hover {
 	background-color: #000;
 }
 .toggle-button {

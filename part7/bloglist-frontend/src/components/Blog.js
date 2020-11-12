@@ -4,7 +4,7 @@ import { likeBlog, deleteBlog } from '../reducers/blogReducer';
 import { newNotification } from '../reducers/notificationReducer';
 import PropTypes from 'prop-types';
 import Togglable from './Togglable';
-import './Blog.css';
+import { BlogItem, InfoRow } from './BlogStyles';
 
 const Blog = ({ blog }) => {
   const blogs = useSelector(state => state.blogs);
@@ -33,16 +33,16 @@ const Blog = ({ blog }) => {
   const deleteButton = () => {
     if(!user) return null;
     return (
-      <div className='info-row align-right'>
+      <InfoRow alignRight>
         <button className='delete-button' onClick={
           () => handleDeleteClick()
         }>delete</button>
-      </div>
+      </InfoRow>
     );
   };
 
   return (
-    <div className='blog-item'>
+    <BlogItem>
       <h3 className='title'>
         {blog.title}
         <span className='author'>{blog.author ? 'by ' + blog.author : blog.user ? 'by ' + blog.user.name : ''}</span>
@@ -50,25 +50,25 @@ const Blog = ({ blog }) => {
       </h3>
       <Togglable label='info' keepButtonVisible='true'>
         <div style={{ paddingBottom: '12px' }}>
-          <div className='info-row info-row--url'>
-            <span className='info-row__label'>URL: </span><a href={blog.url}>{blog.url}</a>
-          </div>
-          <div className='info-row info-row--likes'>
-            <span className='info-row__label'>Likes: </span>
+          <InfoRow>
+            <span>URL: </span><a href={blog.url}>{blog.url}</a>
+          </InfoRow>
+          <InfoRow>
+            <span>Likes: </span>
             {blog.likes}
             <button
               className={loadingLike ? 'like-button loading' : 'like-button'}
               onClick={() => handleLikeClick(blog, loadingLike, setLoadingLike)}>
               {loadingLike ? 'saving..' : 'like'}
             </button>
-          </div>
-          <div className='info-row'>
-            <span className='info-row__label'>Creator: </span>{blog.user && blog.user.name ? blog.user.name : '--'}
-          </div>
+          </InfoRow>
+          <InfoRow>
+            <span>Creator: </span>{blog.user && blog.user.name ? blog.user.name : '--'}
+          </InfoRow>
           {deleteButton(user, blog, handleDeleteClick)}
         </div>
       </Togglable>
-    </div>
+    </BlogItem>
   );
 };
 
