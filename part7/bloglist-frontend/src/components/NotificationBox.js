@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import './NotificationBox.css';
+import { NotificationWrapper } from './NotificationStyles';
 import { changePhase, clearNotification } from '../reducers/notificationReducer';
 
 let timer;
@@ -87,9 +87,9 @@ const NotificationBox = () => {
     template.concat(null);
   }
   return <div className='notification-box-wrapper'>
-    <div className={setClassName()} style={{ transitionDuration: transitionT + 'ms' }}>
+    <NotificationWrapper className={setClassName()} style={{ transitionDuration: transitionT + 'ms' }}>
       {template}
-    </div>
+    </NotificationWrapper>
   </div>;
 };
 

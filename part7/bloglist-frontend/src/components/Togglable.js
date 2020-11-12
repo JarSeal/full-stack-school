@@ -1,6 +1,6 @@
 import React, { useState, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
-import './Togglable.css';
+import { ToggleWrapper } from './TogglableStyles';
 
 const Togglable = React.forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false);
@@ -31,7 +31,7 @@ const Togglable = React.forwardRef((props, ref) => {
   };
 
   return (
-    <div className='togglable' style={{ position: 'relative', maxWidth: '960px' }}>
+    <ToggleWrapper>
       <div style={{ display: (visible || (!visible && phaser !== 0)) && !props.keepButtonVisible ? 'none' : '' }}>
         <button onClick={toggleVisibility} className='toggle-button'>{props.label}</button>
       </div>
@@ -48,7 +48,7 @@ const Togglable = React.forwardRef((props, ref) => {
         </div>
         {props.children}
       </div>
-    </div>
+    </ToggleWrapper>
   );
 });
 

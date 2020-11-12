@@ -1,4 +1,7 @@
-.notification {
+import styled from 'styled-components';
+
+export const NotificationWrapper = styled.div`
+  &.notification {
     position: fixed;
     top: 20px;
     left: 50%;
@@ -25,59 +28,59 @@
         padding-top,
         padding-bottom,
         box-shadow;
-}
-.notification--start {
+  }
+  &.notification--start {
     max-height: 50px;
     padding-top: 10px;
     padding-bottom: 10px;
     overflow: hidden;
-}
-.notification--middle {
+  }
+  &.notification--middle {
     max-height: none;
     padding-top: 10px;
     padding-bottom: 10px;
     overflow: visible;
-}
-body .notification--end-begin {
+  }
+  body &.notification--end-begin {
     max-height: 80px;
     padding-top: 10px;
     padding-bottom: 10px;
     overflow: hidden;
-}
-body div .notification--end {
+  }
+  body div &.notification--end {
     max-height: 0;
     padding-top: 0;
     padding-bottom: 0;
     overflow: hidden;
     background-color: rgba(255, 255, 255, 0);
-}
-.notification--done {
+  }
+  &.notification--done {
     background-color: rgb(22, 102, 11);
     color: rgba(255, 255, 255, 1);
-}
-.notification--warning {
+  }
+  &.notification--warning {
     background-color: rgba(255, 191, 69, 1);
     color: rgba(51, 51, 51, 1);;
-}
-.notification--error {
+  }
+  &.notification--error {
     background-color: rgba(255, 0, 69, 1);
     color: rgba(255, 255, 255, 1);
-}
+  }
 
-.notification--warning .close-button:before,
-.notification--warning .close-button:after {
+  &.notification--warning .close-button:before,
+  &.notification--warning .close-button:after {
     background-color: #333;
-}
+  }
 
-/* Icons */
-.notification:before,
-.notification:after {
+  /* Icons */
+  &.notification:before,
+  &.notification:after {
     display: block;
     content: "";
     position: absolute;
-}
-.notification--done:before,
-.notification--error:before {
+  }
+  &.notification--done:before,
+  &.notification--error:before {
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -85,8 +88,8 @@ body div .notification--end {
     top: 50%;
     margin-top: -12px;
     left: 17px;
-}
-.notification--done:after {
+  }
+  &.notification--done:after {
     width: 12px;
     height: 5px;
     border-left: 2px solid #fff;
@@ -95,8 +98,8 @@ body div .notification--end {
     top: 50%;
     margin-top: -5px;
     left: 22px;
-}
-.notification--warning:before {
+  }
+  &.notification--warning:before {
     width: 1px;
     height: 1px;
     border-radius: 2px;
@@ -107,9 +110,9 @@ body div .notification--end {
     top: 50%;
     margin-top: -31px;
     left: 16px;
-}
-.notification--warning:after,
-.notification--error:after {
+  }
+  &.notification--warning:after,
+  &.notification--error:after {
     content: "!";
     color: rgba(255, 191, 69, 1);
     font-weight: 700;
@@ -117,15 +120,15 @@ body div .notification--end {
     top: 50%;
     margin-top: -7px;
     left: 26px;
-}
-.notification--error:after {
+  }
+  &.notification--error:after {
     color: #fff;
     margin-top: -9px;
     left: 26.5px;
-}
+  }
 
-/* Confirmation */
-.notification--confirmation {
+  /* Confirmation */
+  &.notification--confirmation {
     position: fixed;
     width: 96%;
     top: 50%;
@@ -136,14 +139,14 @@ body div .notification--end {
     box-shadow: 0 0 12px rgba(0,0,0,0.3);
     text-align: center;
     padding-right: 50px;
-}
-.notification--confirmation.notification--start {
+  }
+  &.notification--confirmation.notification--start {
     max-height: 97px;
-}
-.notification__confirm-area {
+  }
+  & .notification__confirm-area {
     padding: 10px 0;
-}
-.notification__button {
+  }
+  & .notification__button {
     background-color: transparent;
     border: 2px solid #333;
     color: #333;
@@ -152,11 +155,12 @@ body div .notification--end {
     border-radius: 15px;
     transition: background-color 0.2s ease-in-out,
                 color 0.2s ease-in-out;
-}
-.notification__button:hover {
+  }
+  & .notification__button:hover {
     background-color: #333;
     color: #fff;
-}
-.notification__button + .notification__button {
+  }
+  & .notification__button + .notification__button {
     margin-left: 10px;
-}
+  }
+`;

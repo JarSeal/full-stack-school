@@ -64,8 +64,8 @@ body .toggle-button:hover {
 .close-button:after {
     transform: rotate(-45deg);
 }
-.togglable .close-button:before,
-.togglable .close-button:after {
+.toggle-area .close-button:before,
+.toggle-area .close-button:after {
     background-color: #333;
 }
 
