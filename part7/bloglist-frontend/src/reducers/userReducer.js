@@ -15,7 +15,7 @@ export const initUser = (ls) => {
       type: 'LOGIN',
       data: user
     });
-  }
+  };
 };
 
 export const login = (credentials, setUsername, setPassword, ls) => {
@@ -62,15 +62,15 @@ export const logout = (ls) => {
   };
 };
 
-const userReducer = (state = null, action) => {  
+const userReducer = (state = null, action) => {
   switch (action.type) {
-    case 'LOGIN':
-      return action.data;
-    case 'LOGOUT':
-      return null;
-    default:
-      return state;
-  };
+  case 'LOGIN':
+    return action.data;
+  case 'LOGOUT':
+    return null;
+  default:
+    return state;
+  }
 };
 
 export default userReducer;

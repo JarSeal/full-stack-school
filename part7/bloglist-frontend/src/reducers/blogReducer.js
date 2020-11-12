@@ -117,16 +117,16 @@ export const createBlog = (content, blogs, blogRef, setTitle, setAuthor, setUrl)
 };
 
 const blogsReducer = (state = [], action) => {
-  
+
   switch (action.type) {
-    case 'ALL_BLOGS':
-    case 'LIKE_BLOG':
-    case 'DELETE_BLOG':
-    case 'CREATE_BLOG':
-      return action.data;
-    default:
-      return state;
-  };
+  case 'ALL_BLOGS':
+  case 'LIKE_BLOG':
+  case 'DELETE_BLOG':
+  case 'CREATE_BLOG':
+    return action.data;
+  default:
+    return state;
+  }
 };
 
 export default blogsReducer;

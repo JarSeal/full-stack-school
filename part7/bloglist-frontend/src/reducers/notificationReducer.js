@@ -29,15 +29,15 @@ export const changePhase = (phase) => {
 
 const notificationReducer = (state = initState, action) => {
   switch (action.type) {
-    case 'NEW_NOTIFICATION':
-      return action.data;
-    case 'CHANGE_PHASE':
-      return { ...state, phase: action.phase };
-    case 'CLEAR_NOTIFICATION':
-      return initState;
-    default:
-      return state;
-  };
+  case 'NEW_NOTIFICATION':
+    return action.data;
+  case 'CHANGE_PHASE':
+    return { ...state, phase: action.phase };
+  case 'CLEAR_NOTIFICATION':
+    return initState;
+  default:
+    return state;
+  }
 };
 
 export default notificationReducer;
