@@ -9,34 +9,27 @@ export const BlogItem = styled.div`
   background: linear-gradient(0deg, rgba(241,241,241,1) 0%, rgba(228,228,228,1) 100%);
   padding: 4px 16px 8px;
   border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
   & + & {
     margin-top: 10px;
   }
   & > h3 {
     margin-top: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 0;
     padding-right: 130px;
-    padding-bottom: 8px;
     font-size: 24px;
     width: 100%;
     box-sizing: border-box;
-    border-bottom: 1px solid #fff;
     position: relative;
-  }
-  & > h3:before {
-    display: block;
-    content: "";
-    width: 100%;
-    height: 1px;
-    background-color: #ccc;
-    position: absolute;
-    bottom: 0;
+    transition: color 0.2s ease-in-out;
   }
   & > h3 span.author {
     color: #777;
     font-size: 14px;
     display: inline-block;
     margin-left: 6px;
+    transition: color 0.2s ease-in-out;
   }
   & > h3 span.likes-big {
     color: #999;
@@ -45,10 +38,11 @@ export const BlogItem = styled.div`
     top: 50%;
     right: 0;
     transform: translateY(-50%);
-    margin-top: -6px;
+    margin-top: -2px;
     font-size: 48px;
     opacity: 0.2;
     padding-right: 20px;
+    transition: color 0.2s ease-in-out;
   }
   & > h3 span.likes-big span {
     position: absolute;
@@ -58,35 +52,16 @@ export const BlogItem = styled.div`
     font-size: 12px;
     text-transform: uppercase;
   }
-  & .togglable {
-    min-height: 12px;
-    position: relative;
-  }
-  & .toggle-area {
-    transform: translateY(12px);
-  }
-  & .toggle-button {
-    border-radius: 0 0 4px 4px;
-    font-size: 10px;
-    padding: 4px 20px;
-    top: -14px;
-    position: absolute;
-    border-color: transparent;
-    background-color: #ccc;
-  }
-  & a,
-  & a:visited {
-    color: #555;
-    transition: color 0.2s ease-in-out;
-  }
-  & a:hover {
-    color: #333;
-    text-decoration: none;
-  }
-  & .toggle-area.visi-false.phase-2,
-  & .toggle-area.visi-false.phase-3,
-  & .toggle-area.visi-true.phase-1 {
-    max-height: 126px;
+  &:hover {
+    background: rgb(200,200,200);
+    h3,
+    h3 span.author {
+      color: #fff;
+    }
+    > h3 span.likes-big {
+      color: #fff;
+      opacity: 1;
+    }
   }
 `;
 

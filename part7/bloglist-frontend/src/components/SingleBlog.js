@@ -59,7 +59,7 @@ const SingleBlog = () => {
       </h3>
       <div className='blog-content'>
         <a href={curBlog.url} target='_new'>{ curBlog.url} </a><br />
-        { curBlog.likes } likes&nbsp;
+        { curBlog.likes } { curBlog.likes === 1 ? 'like' : 'likes' }&nbsp;
         <button
           className={loadingLike ? 'like-button loading' : 'like-button'}
           onClick={handleLikeClick}>
