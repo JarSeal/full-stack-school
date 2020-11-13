@@ -11,7 +11,7 @@ export const initUser = (ls, location, history) => {
       user = JSON.parse(loggedUserJSON);
       blogService.setToken(user.token);
     } else {
-      if(location.pathname !== '' && location.pathname !== '/') {
+      if(location.pathname !== '' && location.pathname !== '/' && !location.pathname.includes('/blogs/')) {
         history.push('/');
       }
     }

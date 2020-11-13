@@ -16,12 +16,10 @@ const SingleBlog = () => {
   const curId = useParams().id;
 
   useEffect(() => {
-    if(user) {
-      dispatch(getBlogs());
-    }
-  }, [dispatch, user]);
+    dispatch(getBlogs());
+  }, [dispatch]);
 
-  if(!user || !blogs.length) return null;
+  if(!blogs.length) return null;
 
   const curBlog = blogs.filter(b => b.id === curId)[0];
   if(curBlog === undefined) return (<Redirect to='/' />);
@@ -49,13 +47,20 @@ const SingleBlog = () => {
     setLoadingLike(false);
   };
 
+  const deleteButton = () => {
+    if(!user || user.username !== curBlog.user.username) return null;
+    return (
+      <button className='delete-button' onClick={handleDeleteClick}>delete</button>
+    );
+  };
+
   return (
     <OneBlog>
       <h3>
         <BackButton onClick={handleGoBack} title='Back..'></BackButton>
         { curBlog.title }&nbsp;
         <span className='author'>by { curBlog.author }</span>
-        <button className='delete-button' onClick={handleDeleteClick}>delete</button>
+        { deleteButton() }
       </h3>
       <div className='blog-content'>
         <a href={curBlog.url} target='_new'>{ curBlog.url} </a><br />
