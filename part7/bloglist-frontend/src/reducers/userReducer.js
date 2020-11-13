@@ -23,21 +23,18 @@ export const login = (credentials, setUsername, setPassword, ls) => {
     let user = null;
     try {
       user = await userService.login(credentials);
+      blogService.setToken(user.token);
       ls.setItem('blogAppUser', JSON.stringify(user));
       setUsername('');
       setPassword('');
       dispatch(newNotification({
         msg: `Welcome ${user.name}!`,
         type: 1,
-        length: 5000,
-        phase: 1,
       }));
     } catch (exception) {
       dispatch(newNotification({
         msg: 'Wrong username and/or password!',
         type: 2,
-        length: 5000,
-        phase: 1,
       }));
     }
     dispatch({
@@ -53,8 +50,6 @@ export const logout = (ls) => {
     dispatch(newNotification({
       msg: 'You are now logged out!',
       type: 1,
-      length: 5000,
-      phase: 1,
     }));
     dispatch({
       type: 'LOGOUT'

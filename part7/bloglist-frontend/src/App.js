@@ -20,11 +20,13 @@ const AppWrapper = styled.div`
 `;
 
 const Footer = styled.footer`
-  opacity: 0.2;
   font-size: 12px;
+  color: #ccc;
   text-align: center;
-  margin-top: -18px;
   margin-bottom: 50px;
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 2px dashed #bbb;
 `;
 
 const App = () => {
@@ -42,6 +44,9 @@ const App = () => {
         <h2>Blogs</h2>
         <MainMenu ls={ls} />
         <Switch>
+          <Route path='/users/:id'>
+            <div>Single user</div>
+          </Route>
           <Route path='/users'>
             <Users />
           </Route>

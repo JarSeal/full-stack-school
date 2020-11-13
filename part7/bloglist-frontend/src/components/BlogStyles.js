@@ -2,8 +2,6 @@ import styled from 'styled-components';
 
 export const BlogList = styled.div`
   padding-bottom: 30px;
-  margin-bottom: 30px;
-  border-bottom: 2px dashed #bbb;
 `;
 
 export const BlogItem = styled.div`
