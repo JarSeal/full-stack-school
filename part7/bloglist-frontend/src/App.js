@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import NotificationBox from './components/NotificationBox';
 import Users from './components/Users';
+import User from './components/User';
 import Blogs from './components/Blogs';
+import SingleBlog from './components/SingleBlog';
 import MainMenu from './components/MainMenu';
 import { getBlogs } from './reducers/blogReducer';
 import { initUser } from './reducers/userReducer';
@@ -31,31 +33,34 @@ const Footer = styled.footer`
 
 const App = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
-    dispatch(initUser(ls));
+    dispatch(initUser(ls, location, history));
     dispatch(getBlogs());
-  }, [dispatch]);
+  }, [dispatch, history, location]);
 
   return (
     <AppWrapper>
-      <Router>
-        <NotificationBox />
-        <h2>Blogs</h2>
-        <MainMenu ls={ls} />
-        <Switch>
-          <Route path='/users/:id'>
-            <div>Single user</div>
-          </Route>
-          <Route path='/users'>
-            <Users />
-          </Route>
-          <Route path='/'>
-            <Blogs ls={ls} />
-          </Route>
-        </Switch>
-        <Footer>by Kai Forsman</Footer>
-      </Router>
+      <NotificationBox />
+      <h2>My Blogs App</h2>
+      <MainMenu ls={ls} />
+      <Switch>
+        <Route path='/users/:id'>
+          <User />
+        </Route>
+        <Route path='/users'>
+          <Users />
+        </Route>
+        <Route path='/blogs/:id'>
+          <SingleBlog />
+        </Route>
+        <Route path='/'>
+          <Blogs ls={ls} />
+        </Route>
+      </Switch>
+      <Footer>by Kai Forsman</Footer>
     </AppWrapper>
   );
 };

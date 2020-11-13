@@ -2,7 +2,7 @@ import userService from '../services/user';
 import blogService from '../services/blogs';
 import { newNotification } from './notificationReducer';
 
-export const initUser = (ls) => {
+export const initUser = (ls, location, history) => {
   return dispatch => {
     let user = null;
     ls.initLocalStorage();
@@ -10,6 +10,10 @@ export const initUser = (ls) => {
     if(loggedUserJSON) {
       user = JSON.parse(loggedUserJSON);
       blogService.setToken(user.token);
+    } else {
+      if(location.pathname !== '' && location.pathname !== '/') {
+        history.push('/');
+      }
     }
     dispatch({
       type: 'LOGIN',

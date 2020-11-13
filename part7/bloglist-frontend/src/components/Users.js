@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { getAllUsers } from '../reducers/usersReducer';
 import UserRow from './UserRow';
 import { UserList } from './UserStyles';
@@ -16,7 +15,7 @@ const Users = () => {
     }
   }, [dispatch, user]);
 
-  if(!user) return (<Redirect to='/' />);
+  if(!user) return null;
 
   return (
     <div>
@@ -29,8 +28,10 @@ const Users = () => {
         {!users
           ? null
           : users.sort((a, b) => {
-            if ( a.name < b.name ) return -1;
-            if ( a.name > b.name ) return 1;
+            const aName = a.name.toLowerCase();
+            const bName = b.name.toLowerCase();
+            if(aName < bName ) return -1;
+            if(aName > bName ) return 1;
             return 0;
           }).map(u =>
             <UserRow key={u.id} userData={u} />

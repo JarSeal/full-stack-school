@@ -17,7 +17,7 @@ export const Menu = styled.nav`
     border-radius: 4px;
     box-sizing: border-box;
     border: 1px solid transparent;
-    background-color: #333;
+    background-color: transparent;
     color: #fff;
     font-size: 11px;
     text-transform: capitalize;
@@ -27,7 +27,7 @@ export const Menu = styled.nav`
     text-decoration: none;
   }
   & .link:hover {
-    background-color: #777;
+    background-color: #333;
     border: 1px solid transparent;
   }
   & .link + .link,
@@ -35,7 +35,7 @@ export const Menu = styled.nav`
     margin-left: 4px;
   }
   & .link.active {
-    background-color: transparent;
+    background-color: #777;
   }
 `;
 

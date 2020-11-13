@@ -11,7 +11,6 @@ export const UserList = styled.ul`
     padding: 8px 16px 8px;
     box-sizing: border-box;
     color: #e2e2e2;
-    font-weight: 700;
     background-color: #888;
   }
   & .heading__name,
@@ -38,6 +37,7 @@ export const UserWrapper = styled.li`
     display: inline-block;
     width: 70%;
     margin: 0;
+    font-weight: 400;
   }
   & .user-blog-count {
     display: inline-block;
