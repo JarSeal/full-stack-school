@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useParams, useHistory } from "react-router-dom";
+import { Link, Redirect, useParams, useHistory } from "react-router-dom";
 import { getBlogs } from '../reducers/blogReducer';
 import { BackButton } from '../styles/BackButtonStyles';
 import { OneBlog } from './SingleBlogStyles';
-import { likeBlog, deleteBlog } from '../reducers/blogReducer';
+import { likeBlog, deleteBlog, createComment } from '../reducers/blogReducer';
 import { newNotification } from '../reducers/notificationReducer';
 
 const SingleBlog = () => {
@@ -13,6 +13,7 @@ const SingleBlog = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [ loadingLike, setLoadingLike ] = useState(false);
+  const [ comment, setComment ] = useState('');
   const curId = useParams().id;
 
   useEffect(() => {
@@ -54,6 +55,18 @@ const SingleBlog = () => {
     );
   };
 
+  const addComment = (e) => {
+    e.preventDefault();
+    if(!comment || !comment.trim().length) {
+      dispatch(newNotification({
+        msg: `Please write a comment..`,
+        type: 2
+      }));
+      return;
+    }
+    dispatch(createComment(comment.trim(), curBlog.id, blogs, setComment));
+  };
+
   return (
     <OneBlog>
       <h3>
@@ -70,7 +83,31 @@ const SingleBlog = () => {
           onClick={handleLikeClick}>
           {loadingLike ? 'saving..' : 'like'}
         </button><br />
-        Added by { curBlog.user.name }
+        Added by <Link to={'/users/' + curBlog.user.id}>{ curBlog.user.name }</Link>
+      </div>
+      <div className='blog-comments'>
+        <h4>Comments</h4>
+        <form className='new-comment-form' onSubmit={addComment} id='new-comment-form'>
+          <div className='form-elem form-elem__input-text'>
+            <label htmlFor='comment-field'>
+              <span className='label-text'>New comment:</span>
+              <input
+                id='comment-field'
+                className='input-text'
+                type='text'
+                value={comment}
+                name='Comment'
+                onChange={({ target }) => setComment(target.value)}
+              />
+            </label>
+          </div>
+          <div className='form-elem form-elem__submit'>
+            <button type='submit' id='new-comment-button'>Create new</button>
+          </div>
+        </form>
+        <div className='comments-list'>
+          {curBlog.comments.map(c => <div key={c.id}>{ c.content }</div>)}
+        </div>
       </div>
     </OneBlog>
   );

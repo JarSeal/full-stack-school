@@ -16,8 +16,11 @@ export const likeBlog = (blog, blogs) => {
     let updatedList = [];
     try {
       const userId = blog.user.id;
+      const commentsIds = blog.comments.map(c => c.id);
       const newLikes = blog.likes + 1;
-      const body = Object.assign({}, blog, { user: userId, likes: newLikes });
+      const body = Object.assign({}, blog, {
+        user: userId, likes: newLikes, comments: commentsIds
+      });
       await blogService.likeBlog(body);
       updatedList = blogs.filter((b) => {
         if(b.id !== blog.id) return b;
@@ -116,6 +119,39 @@ export const createBlog = (content, blogs, blogRef, setTitle, setAuthor, setUrl)
   };
 };
 
+export const createComment = (content, blogId, blogs, setComment) => {
+  return async dispatch => {
+    let updatedList = [];
+    try {
+      const result = await blogService.newComment({
+        content,
+        blogId
+      });
+      updatedList = blogs.filter((b) => {
+        if(b.id !== blogId) return b;
+        return null;
+      });
+      updatedList = updatedList.concat(result);
+      setComment('');
+      dispatch(newNotification({
+        msg: `Comment saved!`,
+        type: 1,
+      }));
+    } catch (error) {
+      updatedList = blogs;
+      dispatch(newNotification({
+        msg: 'Error in posting a comment!',
+        type: 3,
+        length: 0,
+      }));
+    }
+    dispatch({
+      type: 'CREATE_COMMENT',
+      data: updatedList
+    });
+  };
+};
+
 const blogsReducer = (state = [], action) => {
 
   switch (action.type) {
@@ -123,6 +159,7 @@ const blogsReducer = (state = [], action) => {
   case 'LIKE_BLOG':
   case 'DELETE_BLOG':
   case 'CREATE_BLOG':
+  case 'CREATE_COMMENT':
     return action.data;
   default:
     return state;
