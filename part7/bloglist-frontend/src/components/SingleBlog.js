@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect, useParams, useHistory } from "react-router-dom";
+import { Link, Redirect, useParams, useHistory } from 'react-router-dom';
 import { getBlogs } from '../reducers/blogReducer';
 import { BackButton } from '../styles/BackButtonStyles';
 import { OneBlog } from './SingleBlogStyles';
@@ -59,7 +59,7 @@ const SingleBlog = () => {
     e.preventDefault();
     if(!comment || !comment.trim().length) {
       dispatch(newNotification({
-        msg: `Please write a comment..`,
+        msg: 'Please write a comment..',
         type: 2
       }));
       return;

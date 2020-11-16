@@ -134,7 +134,7 @@ export const createComment = (content, blogId, blogs, setComment) => {
       updatedList = updatedList.concat(result);
       setComment('');
       dispatch(newNotification({
-        msg: `Comment saved!`,
+        msg: 'Comment saved!',
         type: 1,
       }));
     } catch (error) {

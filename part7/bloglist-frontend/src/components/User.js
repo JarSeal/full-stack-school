@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useParams, useHistory } from "react-router-dom";
+import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { getAllUsers } from '../reducers/usersReducer';
 import { getBlogs } from '../reducers/blogReducer';
 import { BackButton } from '../styles/BackButtonStyles';
 import { UserList, UserWrapper } from './UserStyles';
 
-const User = ({ ls }) => {
+const User = () => {
   const user = useSelector(state => state.user);
   const users = useSelector(state => state.users);
   const blogs = useSelector(state => state.blogs);
@@ -49,9 +49,9 @@ const User = ({ ls }) => {
           if(aTitle < bTitle) return -1;
           if(aTitle > bTitle) return 1;
           return 0;
-          }).map(b =>
-            <UserWrapper key={b.id} onClick={() => handleBlogClick(b.id)}>{ b.title }</UserWrapper>
-          )
+        }).map(b =>
+          <UserWrapper key={b.id} onClick={() => handleBlogClick(b.id)}>{ b.title }</UserWrapper>
+        )
         }
       </UserList>
     </div>
