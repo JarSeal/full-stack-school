@@ -14,6 +14,7 @@ const initialBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 7,
+    comments: [],
     user: null,
   },
   {
@@ -21,6 +22,7 @@ const initialBlogs = [
     author: 'Paul Mooney',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 7,
+    comments: [],
     user: null,
   },
   {
@@ -28,6 +30,7 @@ const initialBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 2,
+    comments: [],
     user: null,
   },
   {
@@ -35,6 +38,7 @@ const initialBlogs = [
     author: 'Richard Nixon',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 2,
+    comments: [],
     user: null,
   },
   {
@@ -42,6 +46,7 @@ const initialBlogs = [
     author: 'Richard Nixon',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 0,
+    comments: [],
     user: null,
   },
   {
@@ -49,6 +54,7 @@ const initialBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 0,
+    comments: [],
     user: null,
   },
 ];
@@ -221,6 +227,35 @@ describe('api tests', () => {
         .set('Authorization', 'bearer ' + token)
         .send({ likes: 0 })
         .expect(404);
+    });
+  });
+  describe('comment a blog', () => {
+    test('comment a blog twice successfully and get comments for that blog', async () => {
+      const blogs = await api.get('/api/blogs');
+      const id = blogs.body[0].id;
+      const result = await api
+        .post('/api/comments')
+        .send({ content: 'New comment', blogId: id })
+        .expect(200);
+      expect(result.body.comments.length).toBe(1);
+      const result2 = await api
+        .post('/api/comments')
+        .send({ content: 'Another comment', blogId: id })
+        .expect(200);
+      expect(result2.body.comments.length).toBe(2);
+      const result3 = await api
+        .get('/api/comments/' + id);
+      expect(result3.body.length).toBe(2);
+    });
+    test('try to comment a non existing blog', async () => {
+      const nonExistingId = mongoose.Types.ObjectId();
+      await api
+        .post('/api/comments')
+        .send({ content: 'New comment', blogId: nonExistingId })
+        .expect(404);
+      const result = await api
+        .get('/api/comments/' + nonExistingId);
+      expect(result.body.length).toBe(0);
     });
   });
 });

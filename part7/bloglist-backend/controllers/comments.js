@@ -11,6 +11,9 @@ commentsRouter.post('/', async (request, response) => {
   const body = request.body;
   
   const blog = await Blog.findById(body.blogId);
+  if(!blog) {
+    return response.status(404).json({ error: 'Blog not found' });
+  }
 
   const comment = new Comment({
     content: body.content,
