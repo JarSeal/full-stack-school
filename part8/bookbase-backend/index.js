@@ -148,7 +148,6 @@ const resolvers = {
   },
   Mutation: {
     addBook: (root, args) => {
-      console.log('TADAA', args);
       const book = { ...args, id: uuid() };
       books = books.concat(book);
       if(!authors.filter(a => a.name === args.author).length) {
