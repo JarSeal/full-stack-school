@@ -12,7 +12,12 @@ const NewBook = (props) => {
   const [ createBook ] = useMutation(ADD_BOOK, {
     refetchQueries: [ { query: ALL_AUTHORS }, { query: ALL_BOOKS } ],
     onError: (error) => {
-      console.log('Error', error.errors[0].message);
+      props.setNotification({
+        msg: 'Error, could not create new book.',
+        type: 3,
+        time: 0,
+        running: false
+      });
     }
   });
 
@@ -20,17 +25,50 @@ const NewBook = (props) => {
     return null;
   }
 
+  const validateNewBook = () => {
+    if(!title.length) {
+      props.setNotification({
+        msg: 'Title is required.',
+        type: 2,
+        time: 5000,
+      });
+      return false;
+    } else if(!author.length) {
+      props.setNotification({
+        msg: 'Author is required.',
+        type: 2,
+        time: 5000,
+      });
+      return false;
+    } else if(!published.length) {
+      props.setNotification({
+        msg: 'Published year is required.',
+        type: 2,
+        time: 5000,
+      });
+      return false;
+    }
+    return true;
+  };
+
   const submit = async (event) => {
     event.preventDefault();
-    
-    console.log('add book...', title, published, author, genres);
-    createBook({ variables: { title, published: parseInt(published), author, genres } });
 
-    setTitle('');
-    setPublished('');
-    setAuthor('');
-    setGenres([]);
-    setGenre('');
+    if(validateNewBook()) {
+      await createBook({ variables: { title, published: parseInt(published), author, genres } });
+
+      setTitle('');
+      setPublished('');
+      setAuthor('');
+      setGenres([]);
+      setGenre('');
+
+      props.setNotification({
+        msg: 'New book created!',
+        type: 1,
+        time: 5000
+      });
+    }
   };
 
   const addGenre = () => {
