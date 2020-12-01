@@ -116,6 +116,8 @@ const resolvers = {
         let errorMsg = 'Error, could not create new book.';
         if(error.code === 11000) {
           errorMsg = `The book '${args.title}' already exists. The title has to be unique.`;
+        } else if(error.errors && error.errors.title && error.errors.title.kind === 'minlength') {
+          errorMsg = `Book title has to be at least ${error.errors.title.properties.minlength} characters in length.`;  
         }
         throw new UserInputError(errorMsg, {
           invalidArgs: args
