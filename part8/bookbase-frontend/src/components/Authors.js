@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { ALL_AUTHORS, EDIT_AUTHOR } from '../queries';
 
@@ -7,20 +7,17 @@ const Authors = (props) => {
   const [authorToBeChanged, setAuthorToBeChanged] = useState('');
   const [newAuthorBirthYear, setNewAuthorBirthYear] = useState('');
   
-  const [ modifyAuthor, modifyResult ] = useMutation(EDIT_AUTHOR, {
-    refetchQueries: [ { query: ALL_AUTHORS } ]
-  });
-
-  useEffect(() => {
-    if(modifyResult.data && !modifyResult.data.editAuthor) {
+  const [ modifyAuthor ] = useMutation(EDIT_AUTHOR, {
+    refetchQueries: [ { query: ALL_AUTHORS } ],
+    onError: (error) => {
       props.setNotification({
-        msg: 'Error, author not found.',
-        type: 3,
+        msg: error.message,
+        type: 2,
         time: 0,
         running: false
       });
     }
-  }, [modifyResult.data])  // eslint-disable-line
+  });
 
   if(!props.show) {
     return null;
@@ -109,8 +106,8 @@ const Authors = (props) => {
       <h2>authors</h2>
       <table>
         <tbody>
-          <tr>
-            <th></th>
+          <tr style={!authors.length ? {display:'none'} : null}>
+            <th>name</th>
             <th>
               born
             </th>
@@ -118,13 +115,13 @@ const Authors = (props) => {
               books
             </th>
           </tr>
-          {authors.map(a =>
+          {authors.length ? authors.map(a =>
             <tr key={a.name}>
               <td>{a.name}</td>
               <td>{a.born}</td>
               <td>{a.bookCount}</td>
             </tr>
-          )}
+          ) : <tr><td colSpan='3' style={{color:'#ccc'}}>No authors found..</td></tr>}
         </tbody>
       </table>
       { birthYearForm() }

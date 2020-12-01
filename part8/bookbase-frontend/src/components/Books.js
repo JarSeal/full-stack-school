@@ -25,8 +25,8 @@ const Books = (props) => {
       <h2>books</h2>
       <table>
         <tbody>
-          <tr>
-            <th></th>
+          <tr style={!books.length ? {display:'none'} : null}>
+            <th>title</th>
             <th>
               author
             </th>
@@ -34,13 +34,13 @@ const Books = (props) => {
               published
             </th>
           </tr>
-          {books.map(a =>
-            <tr key={a.title}>
-              <td>{a.title}</td>
-              <td>{a.author}</td>
-              <td>{a.published}</td>
+          {books.length ? books.map(b =>
+            <tr key={b.title}>
+              <td>{b.title}</td>
+              <td>{b.author.name}</td>
+              <td>{b.published}</td>
             </tr>
-          )}
+          ) : <tr><td colSpan='3' style={{color:'#ccc'}}>No books found..</td></tr>}
         </tbody>
       </table>
     </div>

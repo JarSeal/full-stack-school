@@ -13,8 +13,8 @@ const NewBook = (props) => {
     refetchQueries: [ { query: ALL_AUTHORS }, { query: ALL_BOOKS } ],
     onError: (error) => {
       props.setNotification({
-        msg: 'Error, could not create new book.',
-        type: 3,
+        msg: error.message,
+        type: 2,
         time: 0,
         running: false
       });
@@ -55,19 +55,20 @@ const NewBook = (props) => {
     event.preventDefault();
 
     if(validateNewBook()) {
-      await createBook({ variables: { title, published: parseInt(published), author, genres } });
+      const result = await createBook({ variables: { title, published: parseInt(published), author, genres } });
+      if(result) {
+        setTitle('');
+        setPublished('');
+        setAuthor('');
+        setGenres([]);
+        setGenre('');
 
-      setTitle('');
-      setPublished('');
-      setAuthor('');
-      setGenres([]);
-      setGenre('');
-
-      props.setNotification({
-        msg: 'New book created!',
-        type: 1,
-        time: 5000
-      });
+        props.setNotification({
+          msg: 'New book created!',
+          type: 1,
+          time: 5000
+        });
+      }
     }
   };
 
