@@ -63,22 +63,20 @@ const resolvers = {
       let findThese = {};
       const argAuthor = args.author;
       const argGenre = args.genre;
-      // if(argAuthor || argGenre) {
-      //   if(argAuthor) {
-      //     const authorData = await Author.findOne({ name: argAuthor });
-          
-      //   }
-
-
-      //   if(argAuthor && argGenre) {
-      //     return books.filter(b => b.author === argAuthor && b.genres.includes(argGenre));
-      //   } else if(argAuthor) {
-      //     return books.filter(b => b.author === argAuthor);
-      //   } else if(argGenre) {
-      //     return books.filter(b => b.genres.includes(argGenre));
-      //   }
-      // }
-      const result = await Book.find({}).populate('author', {
+      if(argAuthor || argGenre) {
+        if(argAuthor) {
+          const authorData = await Author.findOne({ name: argAuthor });
+          if(authorData) {
+            findThese.author = authorData._id;
+          } else {
+            return [];
+          }
+        }
+        if(argGenre) {
+          findThese.genres = { $in: [argGenre] };
+        }
+      }
+      const result = await Book.find(findThese).populate('author', {
         name: 1, born: 1, id: 1
       });
       return result;
