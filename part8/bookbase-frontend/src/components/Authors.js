@@ -22,7 +22,7 @@ const Authors = (props) => {
   if(!props.show) {
     return null;
   };
-  
+
   let authors = result.data
     ? result.data.allAuthors
     : [];
@@ -35,6 +35,12 @@ const Authors = (props) => {
   }
 
   const handleAuthorSelection = (e) => {
+    const selectedAuthor = authors.filter(a => a.name === e.target.value);
+    if(selectedAuthor.length && selectedAuthor[0].born) {
+      setNewAuthorBirthYear(selectedAuthor[0].born);
+    } else {
+      setNewAuthorBirthYear('');
+    }
     setAuthorToBeChanged(e.target.value);
   };
 
@@ -53,18 +59,19 @@ const Authors = (props) => {
       return;
     }
 
-    await modifyAuthor({ variables: {
+    const result = await modifyAuthor({ variables: {
       name: authorToBeChanged, setBornTo: parseInt(newAuthorBirthYear)
     }});
 
-    setAuthorToBeChanged('');
-    setNewAuthorBirthYear('');
-
-    props.setNotification({
-      msg: 'Author modified!',
-      type: 1,
-      time: 5000
-    });
+    if(result) {
+      setAuthorToBeChanged('');
+      setNewAuthorBirthYear('');
+      props.setNotification({
+        msg: 'Author modified!',
+        type: 1,
+        time: 5000
+      });
+    }
   };
 
   const birthYearForm = () => {

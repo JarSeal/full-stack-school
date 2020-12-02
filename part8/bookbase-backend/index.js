@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { ApolloServer, UserInputError, gql } = require('apollo-server');
+const { ApolloServer, UserInputError, AuthenticationError, gql } = require('apollo-server');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.TOKEN_SECRET;
@@ -117,7 +117,11 @@ const resolvers = {
     }
   },
   Mutation: {
-    addBook: async (root, args) => {
+    addBook: async (root, args, context) => {
+      const currentUser = context.currentUser;
+      if(!currentUser) {
+        throw new AuthenticationError("User needs to be authenticated to add a new book.");
+      }
       let bookAuthor = await Author.findOne({ name: args.author }),
         result;
       if(!bookAuthor) {
@@ -155,7 +159,11 @@ const resolvers = {
       }};
       return fullBook;
     },
-    editAuthor: async (root, args) => {
+    editAuthor: async (root, args, context) => {
+      const currentUser = context.currentUser;
+      if(!currentUser) {
+        throw new AuthenticationError("User needs to be authenticated to update author\'s birth year.");
+      }
       const author = await Author.findOne({ name: args.name });
       author.born = args.setBornTo;
       try {
