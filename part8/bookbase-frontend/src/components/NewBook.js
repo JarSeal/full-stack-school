@@ -10,7 +10,54 @@ const NewBook = (props) => {
   const [genres, setGenres] = useState([]);
 
   const [ createBook ] = useMutation(ADD_BOOK, {
-    refetchQueries: [ { query: ALL_AUTHORS }, { query: ALL_BOOKS } ],
+    refetchQueries: [ { query: ALL_AUTHORS } ],
+    update: (store, response) => {
+      const newBook = response.data.addBook;
+      const newBookGenres = newBook.genres;
+      newBookGenres.map(genre => {
+        let dataInStore = null;
+        try {
+          dataInStore = store.readQuery({ query: ALL_BOOKS, variables: { genre } });
+        } catch(e) {
+          return null;
+        }
+        store.writeQuery({
+          query: ALL_BOOKS,
+          variables: { genre },
+          data: {
+            ...dataInStore,
+            allBooks: [ ...dataInStore.allBooks, newBook ]
+          } 
+        });
+        return null;
+      });
+      const dataInStore = store.readQuery({ query: ALL_BOOKS, variables: {} });
+      store.writeQuery({
+        query: ALL_BOOKS,
+        variables: {},
+        data: {
+          ...dataInStore,
+          allBooks: [ ...dataInStore.allBooks, newBook ]
+        }
+      });
+      let tempGenres = props.genres.map(genre => genre);
+      newBookGenres.forEach(newGenre => {
+        let genreFound = false;
+        tempGenres = tempGenres.map(genre => {
+          if(newGenre === genre.g) {
+            console.log('COUNTING', genre);
+            genreFound = true;
+            return { g: genre.g, c: genre.c++ };
+          }
+          return genre;
+        });
+        if(!genreFound) {
+          tempGenres.concat({ g: newGenre, c: 1 });
+        }
+      });
+      console.log('tempGenres', tempGenres);
+      props.setGenres(tempGenres);
+    },
     onError: (error) => {
       props.setNotification({
         msg: error.message,

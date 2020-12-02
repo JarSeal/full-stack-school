@@ -9,6 +9,7 @@ let notificationTimer = null;
 
 const App = () => {
   const [token, setToken] = useState(null);
+  const [genres, setGenres] = useState([]);
   const [page, setPage] = useState('authors');
   const [notification, setNotification] = useState({
     msg: '',
@@ -97,12 +98,16 @@ const App = () => {
 
       <Books
         show={page === 'books'}
+        genres={genres}
+        setGenres={setGenres}
       />
 
       { token !== null &&
         <NewBook
           show={page === 'add'}
           setNotification={setNotification}
+          genres={genres}
+          setGenres={setGenres}
         />
       }
 
