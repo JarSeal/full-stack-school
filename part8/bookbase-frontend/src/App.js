@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useApolloClient } from '@apollo/client';
 import Authors from './components/Authors';
 import Books from './components/Books';
 import NewBook from './components/NewBook';
+import Login from './components/Login';
 
 let notificationTimer = null;
 
 const App = () => {
+  const [token, setToken] = useState(null);
   const [page, setPage] = useState('authors');
   const [notification, setNotification] = useState({
     msg: '',
@@ -13,6 +16,25 @@ const App = () => {
     time: 0,
     running: false
   });
+
+  useEffect(() => {
+    const localToken = localStorage.getItem('bookbase-user-token');
+    if(localToken) {
+      setToken(localToken);
+    }
+  }, [setToken]);
+  
+  const client = useApolloClient();
+  const logout = () => {
+    setToken(null);
+    localStorage.removeItem('bookbase-user-token');
+    client.resetStore();
+    setNotification({
+      msg: 'You are now logged out.',
+      type: 1,
+      time: 5000
+    });
+  };
 
   const clearNotification = () => {
     setNotification({
@@ -23,7 +45,7 @@ const App = () => {
     });
   };
 
-  if(notification.time > 0 && !notification.running)  {
+  if(notification.time > 0 && !notification.running) {
     setNotification({ ...notification, running: true });
     clearTimeout(notificationTimer);
     notificationTimer = setTimeout(() => {
@@ -54,7 +76,13 @@ const App = () => {
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
+        { token !== null ?
+          <span>
+            <button onClick={() => setPage('add')}>add book</button>
+            <button onClick={logout}>logout</button>
+          </span> :
+          <button onClick={() => setPage('login')}>login</button>
+        }
       </div>
 
       <div style={setNotificationStyle()} onClick={clearNotification}>
@@ -64,16 +92,28 @@ const App = () => {
       <Authors
         show={page === 'authors'}
         setNotification={setNotification}
+        token={token}
       />
 
       <Books
         show={page === 'books'}
       />
 
-      <NewBook
-        show={page === 'add'}
-        setNotification={setNotification}
-      />
+      { token !== null &&
+        <NewBook
+          show={page === 'add'}
+          setNotification={setNotification}
+        />
+      }
+
+      { token === null &&
+        <Login
+          show={page === 'login'}
+          setNotification={setNotification}
+          setToken={setToken}
+          setPage={setPage}
+        />
+      }
 
     </div>
   );

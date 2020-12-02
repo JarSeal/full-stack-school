@@ -21,7 +21,7 @@ const NewBook = (props) => {
     }
   });
 
-  if (!props.show) {
+  if(!props.show) {
     return null;
   }
 

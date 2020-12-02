@@ -22,6 +22,7 @@ const Authors = (props) => {
   if(!props.show) {
     return null;
   };
+  
   let authors = result.data
     ? result.data.allAuthors
     : [];
@@ -67,7 +68,7 @@ const Authors = (props) => {
   };
 
   const birthYearForm = () => {
-    if(!authors.length) return null;
+    if(!authors.length || !props.token) return null;
     return (
       <form onSubmit={handleUpdateAuthorBirth}>
         <h2>Set birthyear</h2>

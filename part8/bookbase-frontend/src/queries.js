@@ -55,3 +55,22 @@ export const EDIT_AUTHOR = gql`
     }
   }
 `;
+
+export const LOGIN = gql`
+  mutation loginUser($username: String!, $password: String!) {
+    login(
+      username: $username,
+      password: $password
+    ) {
+      value
+    }
+  }
+`;
+
+export const ME = gql`
+  query {
+    me {
+      username
+    }
+  }
+`;
