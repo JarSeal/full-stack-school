@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { ALL_BOOKS } from '../queries';
 
@@ -10,43 +10,10 @@ const Books = (props) => {
     ? result.data.allBooks
     : [];
 
-  // useEffect(() => {
-  //   if(books) {
-  //     let genresList = [],
-  //       genresListWCount = [];
-  //     if(!Object.keys(genreFilter).length) {
-  //       books.map(b => {
-  //         b.genres.map(g => {
-  //           const index = genresList.indexOf(g);
-  //           if(index === -1) {
-  //             genresList.push(g);
-  //             genresListWCount.push({g, c: 1});
-  //           } else {
-  //             genresListWCount[index].c++;
-  //           }
-  //           return null;
-  //         });
-  //         return null;
-  //       });
-  //     }
-  //     props.genres.map(genre => {
-  //       const index = genresList.indexOf(genre.g);
-  //       if(index === -1) {
-  //         genresList.push(genre.g);
-  //         genresListWCount.push({g: genre.g, c: 1});
-  //       }
-  //       return null;
-  //     });
-  //     if(genresListWCount.toString() !== props.genres.toString()) {
-  //       props.setGenres(genresListWCount);
-  //     }
-  //   }
-  // }, [books, props, genreFilter]);
-
   if(!props.show) {
     return null;
   } else {
-    if(books) {
+    if(books.length) {
       let genresList = [],
         genresListWCount = [];
       if(!Object.keys(genreFilter).length) {
@@ -104,7 +71,7 @@ const Books = (props) => {
         key='allGenresKey-fdhsakhfkdsa'
         onClick={() => setGenreFilter({})}
         style={{background: '#333', display: 'block', color: '#fff', borderColor: '#333'}}>
-        All genres
+        All genres ({props.genres.map(g => g.c).reduce((count, startVal = 0) => count + startVal)})
       </button>
     );
     return genreList;
@@ -138,7 +105,7 @@ const Books = (props) => {
       <div style={{
         maxWidth: '500px', minWidth: '300px', display: 'inline-block', verticalAlign: 'top', background: '#bbb', padding: '8px'
       }}>
-        <h4 style={{marginTop: 0}}>{genreFilter.genre ? 'genre: '+genreFilter.genre : 'genres'}</h4>
+        <h4 style={{marginTop: 0}}>{genreFilter.genre ? 'Genre: '+genreFilter.genre : 'All genres'}</h4>
         {displayGenreSelection()}
       </div>
     </div>
