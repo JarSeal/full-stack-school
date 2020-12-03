@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { ALL_BOOKS, ALL_AUTHORS, ADD_BOOK } from '../queries';
+import { ALL_AUTHORS, ADD_BOOK } from '../queries';
 
 const NewBook = (props) => {
   const [title, setTitle] = useState('');
@@ -13,48 +13,49 @@ const NewBook = (props) => {
     refetchQueries: [ { query: ALL_AUTHORS } ],
     update: (store, response) => {
       const newBook = response.data.addBook;
-      const newBookGenres = newBook.genres;
-      newBookGenres.map(genre => {
-        let dataInStore = null;
-        try {
-          dataInStore = store.readQuery({ query: ALL_BOOKS, variables: { genre } });
-        } catch(e) {
-          return null;
-        }
-        store.writeQuery({
-          query: ALL_BOOKS,
-          variables: { genre },
-          data: {
-            ...dataInStore,
-            allBooks: [ ...dataInStore.allBooks, newBook ]
-          } 
-        });
-        return null;
-      });
-      const dataInStore = store.readQuery({ query: ALL_BOOKS, variables: {} });
-      store.writeQuery({
-        query: ALL_BOOKS,
-        variables: {},
-        data: {
-          ...dataInStore,
-          allBooks: [ ...dataInStore.allBooks, newBook ]
-        }
-      });
-      let tempGenres = props.genres.map(genre => genre);
-      newBookGenres.forEach(newGenre => {
-        let genreFound = false;
-        tempGenres = tempGenres.map(genre => {
-          if(newGenre === genre.g) {
-            genreFound = true;
-            return { g: genre.g, c: genre.c + 1 };
-          }
-          return genre;
-        });
-        if(!genreFound) {
-          tempGenres = tempGenres.concat({ g: newGenre, c: 1 });
-        }
-      });
-      props.setGenres(tempGenres);
+      props.updateBooksCacheWith(store, newBook);
+      // const newBookGenres = newBook.genres;
+      // newBookGenres.map(genre => {
+      //   let dataInStore = null;
+      //   try {
+      //     dataInStore = store.readQuery({ query: ALL_BOOKS, variables: { genre } });
+      //   } catch(e) {
+      //     return null;
+      //   }
+      //   store.writeQuery({
+      //     query: ALL_BOOKS,
+      //     variables: { genre },
+      //     data: {
+      //       ...dataInStore,
+      //       allBooks: [ ...dataInStore.allBooks, newBook ]
+      //     } 
+      //   });
+      //   return null;
+      // });
+      // const dataInStore = store.readQuery({ query: ALL_BOOKS, variables: {} });
+      // store.writeQuery({
+      //   query: ALL_BOOKS,
+      //   variables: {},
+      //   data: {
+      //     ...dataInStore,
+      //     allBooks: [ ...dataInStore.allBooks, newBook ]
+      //   }
+      // });
+      // let tempGenres = props.genres.map(genre => genre);
+      // newBookGenres.forEach(newGenre => {
+      //   let genreFound = false;
+      //   tempGenres = tempGenres.map(genre => {
+      //     if(newGenre === genre.g) {
+      //       genreFound = true;
+      //       return { g: genre.g, c: genre.c + 1 };
+      //     }
+      //     return genre;
+      //   });
+      //   if(!genreFound) {
+      //     tempGenres = tempGenres.concat({ g: newGenre, c: 1 });
+      //   }
+      // });
+      // props.setGenres(tempGenres);
     },
     onError: (error) => {
       props.setNotification({

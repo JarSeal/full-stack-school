@@ -17,7 +17,6 @@ export const ALL_BOOKS = gql`
       author {
         name
         born
-        id
       }
       published
       genres
@@ -37,8 +36,6 @@ export const ADD_BOOK = gql`
       published
       author {
         name
-        born
-        id
       }
       genres
     }
@@ -84,6 +81,20 @@ export const CHANGE_FAVORITE = gql`
     ) {
       username
       favGenre
+    }
+  }
+`;
+
+export const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      title
+      published
+      author {
+        name
+        born
+      }
+      genres
     }
   }
 `;

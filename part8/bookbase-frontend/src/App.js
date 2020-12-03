@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useSubscription } from '@apollo/client';
 import Authors from './components/Authors';
 import Books from './components/Books';
 import NewBook from './components/NewBook';
 import Login from './components/Login';
 import Recommend from './components/Recommend';
+import { ALL_BOOKS, BOOK_ADDED } from './queries';
 
 let notificationTimer = null;
 
@@ -19,6 +20,74 @@ const App = () => {
     running: false
   });
 
+  const client = useApolloClient();
+
+  const updateBooksCacheWith = (client, addedBook) => {
+    const includedIn = (set, object) =>
+      set.map(p => p.title).includes(object.title);
+
+    const newBookGenres = addedBook.genres;
+    newBookGenres.map(genre => {
+      let dataInStore = null;
+      try {
+        dataInStore = client.readQuery({ query: ALL_BOOKS, variables: { genre } });
+      } catch(e) {
+        return null;
+      }
+      if(!includedIn(dataInStore.allBooks, addedBook)) {
+        client.writeQuery({
+          query: ALL_BOOKS,
+          variables: { genre },
+          data: {
+            ...dataInStore,
+            allBooks: [ ...dataInStore.allBooks, addedBook ]
+          }
+        });
+      }
+      return null;
+    });
+
+    const dataInStore = client.readQuery({ query: ALL_BOOKS, variables: {} });
+    if(!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        variables: {},
+        data: {
+          ...dataInStore,
+          allBooks: [ ...dataInStore.allBooks, addedBook ]
+        }
+      });
+    }
+
+    let tempGenres = genres.map(genre => genre);
+    newBookGenres.forEach(newGenre => {
+      let genreFound = false;
+      tempGenres = tempGenres.map(genre => {
+        if(newGenre === genre.g) {
+          genreFound = true;
+          return { g: genre.g, c: genre.c + 1 };
+        }
+        return genre;
+      });
+      if(!genreFound) {
+        tempGenres = tempGenres.concat({ g: newGenre, c: 1 });
+      }
+    });
+    setGenres(tempGenres);
+  };
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded;
+      setNotification({
+        msg: `New book, ${addedBook.title}, added.`,
+        type: 1,
+        time: 8000
+      });
+      updateBooksCacheWith(client, addedBook);
+    }
+  });
+
   useEffect(() => {
     const localToken = localStorage.getItem('bookbase-user-token');
     if(localToken) {
@@ -26,7 +95,6 @@ const App = () => {
     }
   }, [setToken]);
   
-  const client = useApolloClient();
   const logout = () => {
     setToken(null);
     localStorage.removeItem('bookbase-user-token');
@@ -119,6 +187,7 @@ const App = () => {
           setNotification={setNotification}
           genres={genres}
           setGenres={setGenres}
+          updateBooksCacheWith={updateBooksCacheWith}
         />
       }
 
