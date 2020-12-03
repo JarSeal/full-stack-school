@@ -72,6 +72,18 @@ export const ME = gql`
   query {
     me {
       username
+      favGenre
+    }
+  }
+`;
+
+export const CHANGE_FAVORITE = gql`
+  mutation setNewFavorite($newFavorite: String!) {
+    newFavorite(
+      newFavorite: $newFavorite
+    ) {
+      username
+      favGenre
     }
   }
 `;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { ALL_BOOKS } from '../queries';
 
@@ -10,9 +10,7 @@ const Books = (props) => {
     ? result.data.allBooks
     : [];
 
-  if(!props.show) {
-    return null;
-  } else {
+  useEffect(() => {
     if(books.length) {
       let genresList = [],
         genresListWCount = [];
@@ -43,6 +41,10 @@ const Books = (props) => {
         props.setGenres(genresListWCount);
       }
     }
+  }, [books, genreFilter, props]);
+
+  if(!props.show) {
+    return null;
   }
 
   if(result.loading)  {

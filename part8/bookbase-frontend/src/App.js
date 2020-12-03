@@ -4,6 +4,7 @@ import Authors from './components/Authors';
 import Books from './components/Books';
 import NewBook from './components/NewBook';
 import Login from './components/Login';
+import Recommend from './components/Recommend';
 
 let notificationTimer = null;
 
@@ -30,6 +31,7 @@ const App = () => {
     setToken(null);
     localStorage.removeItem('bookbase-user-token');
     client.resetStore();
+    setPage('authors');
     setNotification({
       msg: 'You are now logged out.',
       type: 1,
@@ -79,6 +81,7 @@ const App = () => {
         <button onClick={() => setPage('books')}>books</button>
         { token !== null ?
           <span>
+            <button onClick={() => setPage('recommend')}>recommend</button>
             <button onClick={() => setPage('add')}>add book</button>
             <button onClick={logout}>logout</button>
           </span> :
@@ -101,6 +104,14 @@ const App = () => {
         genres={genres}
         setGenres={setGenres}
       />
+
+      { token !== null &&
+        <Recommend
+          show={page === 'recommend'}
+          setNotification={setNotification}
+          genres={genres}
+        />
+      }
 
       { token !== null &&
         <NewBook

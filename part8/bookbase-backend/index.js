@@ -37,6 +37,7 @@ const typeDefs = gql`
   }
   type User {
     username: String!
+    favGenre: String
     id: ID!
   }
   type Token {
@@ -67,6 +68,9 @@ const typeDefs = gql`
       username: String!
       password: String!
     ): Token
+    newFavorite(
+      newFavorite: String!
+    ): User
   }
 `;
 
@@ -200,6 +204,23 @@ const resolvers = {
   
       return { value: jwt.sign(userForToken, JWT_SECRET) };
     },
+    newFavorite: async (root, args, context) => {
+      const currentUser = context.currentUser;
+      if(!currentUser) {
+        throw new AuthenticationError("User needs to be authenticated to set new favorite genre.");
+      }
+      const user = await User.findById(currentUser._id);
+      user.favGenre = args.newFavorite;
+      try {
+        await user.save();
+      } catch (error) {
+        let errorMsg = 'Could not update your favorite genre.';
+        throw new UserInputError(errorMsg, {
+          invalidArgs: args
+        });
+      }
+      return user;
+    }
   }
 };
 
@@ -213,7 +234,7 @@ const server = new ApolloServer({
         auth.substring(7), JWT_SECRET
       );
       const currentUser = await User
-        .findById(decodedToken.id).populate('friends');
+        .findById(decodedToken.id);
       return { currentUser };
     }
   }
