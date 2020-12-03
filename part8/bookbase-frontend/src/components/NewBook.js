@@ -45,17 +45,15 @@ const NewBook = (props) => {
         let genreFound = false;
         tempGenres = tempGenres.map(genre => {
           if(newGenre === genre.g) {
-            console.log('COUNTING', genre);
             genreFound = true;
-            return { g: genre.g, c: genre.c++ };
+            return { g: genre.g, c: genre.c + 1 };
           }
           return genre;
         });
         if(!genreFound) {
-          tempGenres.concat({ g: newGenre, c: 1 });
+          tempGenres = tempGenres.concat({ g: newGenre, c: 1 });
         }
       });
-      console.log('tempGenres', tempGenres);
       props.setGenres(tempGenres);
     },
     onError: (error) => {

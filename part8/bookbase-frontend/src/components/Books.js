@@ -10,23 +10,60 @@ const Books = (props) => {
     ? result.data.allBooks
     : [];
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if(books) {
+  //     let genresList = [],
+  //       genresListWCount = [];
+  //     if(!Object.keys(genreFilter).length) {
+  //       books.map(b => {
+  //         b.genres.map(g => {
+  //           const index = genresList.indexOf(g);
+  //           if(index === -1) {
+  //             genresList.push(g);
+  //             genresListWCount.push({g, c: 1});
+  //           } else {
+  //             genresListWCount[index].c++;
+  //           }
+  //           return null;
+  //         });
+  //         return null;
+  //       });
+  //     }
+  //     props.genres.map(genre => {
+  //       const index = genresList.indexOf(genre.g);
+  //       if(index === -1) {
+  //         genresList.push(genre.g);
+  //         genresListWCount.push({g: genre.g, c: 1});
+  //       }
+  //       return null;
+  //     });
+  //     if(genresListWCount.toString() !== props.genres.toString()) {
+  //       props.setGenres(genresListWCount);
+  //     }
+  //   }
+  // }, [books, props, genreFilter]);
+
+  if(!props.show) {
+    return null;
+  } else {
     if(books) {
       let genresList = [],
         genresListWCount = [];
-      books.map(b => {
-        b.genres.map(g => {
-          const index = genresList.indexOf(g);
-          if(index === -1) {
-            genresList.push(g);
-            genresListWCount.push({g, c: 1});
-          } else {
-            genresListWCount[index].c++;
-          }
+      if(!Object.keys(genreFilter).length) {
+        books.map(b => {
+          b.genres.map(g => {
+            const index = genresList.indexOf(g);
+            if(index === -1) {
+              genresList.push(g);
+              genresListWCount.push({g, c: 1});
+            } else {
+              genresListWCount[index].c++;
+            }
+            return null;
+          });
           return null;
         });
-        return null;
-      });
+      }
       props.genres.map(genre => {
         const index = genresList.indexOf(genre.g);
         if(index === -1) {
@@ -35,16 +72,10 @@ const Books = (props) => {
         }
         return null;
       });
-      console.log('CHECK UPDATE', genresListWCount.toString() !== props.genres.toString(), books, props.genres);
       if(genresListWCount.toString() !== props.genres.toString()) {
-        console.log('Updating************************************', props.genres, genresListWCount);
         props.setGenres(genresListWCount);
       }
     }
-  }, [books, props]);
-
-  if(!props.show) {
-    return null;
   }
 
   if(result.loading)  {
