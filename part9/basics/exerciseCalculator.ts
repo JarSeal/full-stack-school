@@ -38,21 +38,31 @@ const calculateExercises = (hours: Array<number>, dailyTarget: number): Exercise
     };
 };
 
-const parseExerciseArguments = (hours: Array<number>, target: number) => {
-    let isNumbers = true;
-    hours.forEach(hour => {
-        if(isNaN(Number(hour))) isNumbers = false;
-    });
-    if(isNumbers && !isNaN(Number(target))) {
-      return hours;
+const parseExerciseArguments = (args: Array<string>): number[] => {
+    let isNumbers = true,
+        hours = [];
+    for(let i=2; i<args.length; i++) {
+        if(isNaN(Number(args[i]))) {
+            isNumbers = false;
+            break;
+        }
+        if(i !== 2) hours.push(Number(args[i]));
+    }
+    if(isNumbers && args.length > 2) {
+        return hours;
     } else {
-      throw new Error('Provided values were not numbers!');
+        throw new Error(`
+            Provided values were not numbers! 
+            First number should be the target 
+            and the rest should be the daily 
+            hours exercised.
+        `);
     }
 };
 
 try {
-    // const hours: number[] = parseExerciseArguments(process.argv[0], process.argv[1]);
-    console.log(calculateExercises([0, 2.6, 3, 0, 2, 1, 1], 2));
+    const hours: number[] = parseExerciseArguments(process.argv);
+    console.log(calculateExercises(hours, Number(process.argv[2])));
 } catch (e) {
     console.log('Error: ', e.message);
 }
