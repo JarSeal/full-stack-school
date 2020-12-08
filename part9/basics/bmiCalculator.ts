@@ -13,7 +13,7 @@ const parseArguments = (args: Array<string>): BmiInputValues => {
         return {
             height: Number(args[2]),
             weight: Number(args[3])
-        }
+        };
     } else {
         throw new Error('Provided values were not numbers!');
     }
@@ -23,5 +23,9 @@ try {
     const { height, weight } = parseArguments(process.argv);
     console.log(calculateBmi(height, weight));
 } catch (e) {
-    console.log('Error: ', e.message);
+    if (e instanceof Error) {
+        console.log('Error: ', e.message);
+    } else {
+        console.log('Error: ', e);
+    }
 }

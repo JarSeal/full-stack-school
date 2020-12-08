@@ -1,6 +1,9 @@
 import calculateBmi from './calculateBmi';
+import calculateExercises from './calculateExercises';
 import express = require('express');
+import bodyParser = require('body-parser');
 const app = express();
+app.use(bodyParser.json());
 
 app.get('/hello', (_req, res) => {
     res.send('Hello Full Stack!');
@@ -20,6 +23,40 @@ app.get('/bmi', (_req, res) => {
             bmi: calculateBmi(height, weight)
         });
     }
+});
+
+interface ExerciseBody {
+    daily_exercises: number[],
+    target: number
+}
+
+app.post('/webexercise', (req, res) => {
+    const body = req.body as ExerciseBody;
+    const dailyHours = body.daily_exercises;
+    let hoursAreNumbers = true;
+    if(dailyHours) {
+        for(let i=0; i<dailyHours.length; i++) {
+            if(isNaN(dailyHours[i])) {
+                hoursAreNumbers = false;
+                break;
+            }
+        }
+    }
+    if(!Object.keys(body).length || !body.target) {
+        res.json({
+            error: 'parameters missing'
+        });
+        return;
+    } else if(!hoursAreNumbers ||
+        isNaN(body.target) ||
+        dailyHours instanceof Array === false) {
+        res.json({
+            error: 'invalid parameters'
+        });
+        return;
+    }
+    const calcResult = calculateExercises(dailyHours, body.target);
+    res.json(calcResult);
 });
 
 const PORT = 3003;
