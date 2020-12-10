@@ -3,13 +3,14 @@ import ReactDOM from "react-dom";
 import Header from './components/Header';
 import Content from './components/Content';
 import Total from './components/Total';
+import { CourseParts } from './types';
 
 const App: React.FC = () => {
   const courseName = "Half Stack application development";
-  const courseParts = [
+  const courseParts: CourseParts[] = [
     {
       name: "Fundamentals",
-      exerciseCount: 10
+      exerciseCount: 10,
     },
     {
       name: "Using props to pass data",
@@ -26,10 +27,6 @@ const App: React.FC = () => {
       <Header courseName={courseName} />
       <Content courseParts={courseParts} />
       <Total courseParts={courseParts} />
-      {/* <p>
-        Number of exercises{" "}
-        {courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
-      </p> */}
     </div>
   );
 };

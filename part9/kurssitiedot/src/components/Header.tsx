@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-const Header: React.FC = (props) => {
+const Header: React.FC<{ courseName: string }> = ({ courseName }) => {
     return (
-        <h1>{props.courseName}</h1>
+        <h1>{courseName}</h1>
     );
 };
 
