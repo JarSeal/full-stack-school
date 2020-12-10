@@ -15,10 +15,24 @@ export type Action =
       payload: Patient;
     };
 
+export const setPatientList = (patientList: Patient[]): Action => {
+  return {
+    type: "SET_PATIENT_LIST",
+    payload: patientList
+  };
+};
+
 export const setFullPatientData = (patientData: PatientFull): Action => {
   return {
     type: "SET_FULL_PATIENT_DATA",
     payload: patientData
+  };
+};
+
+export const addPatient = (patient: Patient): Action => {
+  return {
+    type: "ADD_PATIENT",
+    payload: patient
   };
 };
 
