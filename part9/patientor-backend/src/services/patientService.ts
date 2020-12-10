@@ -1,16 +1,24 @@
 import patientData from '../../data/patients.json';
-import { PatientEntry, NewPatientEntry } from '../types';
+import { PatientEntry, NewPatientEntry, PublicPatient } from '../types';
 
-const patients: Array<PatientEntry> = patientData;
+const patients: PatientEntry[] = patientData;
 
-const getEntries = (): Omit<PatientEntry, 'ssn'>[] => {
+const getEntries = (): PublicPatient[] => {
     return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
         id,
         name,
         dateOfBirth,
         gender,
-        occupation,
+        occupation
     }));
+};
+
+const getOnePatientEntry = (patientId: string): PatientEntry => {
+    const patient = patients.filter(p => {
+        if(p.id === patientId) return p;
+        return null;
+    });
+    return patient[0];
 };
 
 const addEntry = (entry: NewPatientEntry): PatientEntry => {
@@ -30,5 +38,6 @@ const addEntry = (entry: NewPatientEntry): PatientEntry => {
 
 export default {
     getEntries,
-    addEntry
+    addEntry,
+    getOnePatientEntry
 };
