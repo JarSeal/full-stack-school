@@ -1,11 +1,12 @@
 import React from 'react';
-import { CourseParts } from '../types';
+import Part from './Part';
+import { CoursePart } from '../types';
 
-const Content: React.FC<{ courseParts: CourseParts[] }> = ({ courseParts }) => {
+const Content: React.FC<{ courseParts: CoursePart[] }> = ({ courseParts }) => {
     return (
         <div>
             {courseParts.map(
-                p => <p key={p.name}>{p.name} {p.exerciseCount}</p>
+                p => <Part key={p.name} coursePart={p} />
             )}
         </div>
     );

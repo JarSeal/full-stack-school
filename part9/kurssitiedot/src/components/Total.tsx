@@ -1,11 +1,14 @@
 import React from 'react';
-import { CourseParts } from '../types';
+import { CoursePart } from '../types';
 
-const Total: React.FC<{ courseParts: CourseParts[] }> = ({ courseParts }) => {
+const Total: React.FC<{ courseParts: CoursePart[] }> = ({ courseParts }) => {
     return (
-        <p>
+        <p style={{fontWeight:700,paddingTop:'16px'}}>
             Number of exercises{" "}
-            {courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
+            {courseParts.reduce((carry, part) => {
+                if(!isNaN(part.exerciseCount)) return carry + part.exerciseCount;
+                return carry;
+            }, 0)}
         </p>
     );
 };
