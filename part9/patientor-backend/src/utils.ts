@@ -107,17 +107,25 @@ const parseDiagnosisCodes = (codes: any): string[] => {
 };
 
 const parseDischarge = (discharge: any): Discharge => {
-    
+    if(!discharge || !discharge.date || !isString(discharge.date) ||
+        !isDate(discharge.date) || !discharge.criteria || !isString(discharge.criteria)) {
+        throw new Error('Incorrect or missing discharge fields.');
+    }
     return discharge;
 };
 
 const parseHealthCheckRating = (rating: any): HealthCheckRating => {
-    
+    if(!rating || isNaN(rating) || rating < 0 || rating > 3) {
+        throw new Error('Incorrect or missing health check rating value.');
+    }
     return rating;
 };
 
 const parseSickLeave = (sickLeave: any): SickLeave => {
-    
+    if(!sickLeave || !sickLeave.startDate || !isString(sickLeave.startDate) || !isDate(sickLeave.startDate)
+        || !sickLeave.endDate || !isString(sickLeave.endDate) || !isDate(sickLeave.endDate)) {
+        throw new Error('Incorrect format for sick leave fields.');
+    }
     return sickLeave;
 };
 

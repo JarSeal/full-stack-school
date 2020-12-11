@@ -26,7 +26,7 @@ export interface PatientFull {
   gender: Gender;
   ssn: string;
   dateOfBirth?: string;
-  entries: [];
+  entries: Entry[];
 }
 
 interface BaseEntry {
@@ -54,6 +54,10 @@ export interface HealthCheckEntry extends BaseEntry {
 }
 
 export type Entry = OccupationalHealthcareEntry | HospitalEntry | HealthCheckEntry;
+export type NewEntry = Omit<Entry, 'id'>;
+export type NewOccupationalEntry = Omit<OccupationalHealthcareEntry, 'id'>;
+export type NewHospitalEntry = Omit<HospitalEntry, 'id'>;
+export type NewHealthCheckEntry = Omit<HealthCheckEntry, 'id'>;
 
 interface Discharge {
   date: string;

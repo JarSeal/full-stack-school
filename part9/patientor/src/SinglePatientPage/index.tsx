@@ -3,10 +3,11 @@ import axios from "axios";
 import { useParams } from 'react-router-dom';
 import { Container, Icon, List, Button } from "semantic-ui-react";
 
+import { EntryFormValues } from "../AddPatientEntryModal/AddPatientEntryForm";
 import { PatientFull, Gender, Entry } from "../types";
 import AddPatientEntryModal from "../AddPatientEntryModal";
 import { apiBaseUrl } from "../constants";
-import { useStateValue, setFullPatientData } from "../state";
+import { useStateValue, setFullPatientData, addEntry } from "../state";
 
 import HospitalEntryComp from '../entryComponents/HospitalEntry';
 import HealthCheckEntryComp from '../entryComponents/HealthCheckEntry';
@@ -24,6 +25,20 @@ const SinglePatientPage: React.FC = () => {
   const closeModal = (): void => {
     setModalOpen(false);
     setError(undefined);
+  };
+
+  const submitNewEntry = async (values: EntryFormValues) => {
+    try {
+      const { data: newEntry } = await axios.post<Entry>(
+        `${apiBaseUrl}/patients/${id}/entries`,
+        values
+      );
+      dispatch(addEntry(newEntry, id));
+      closeModal();
+    } catch (e) {
+      console.error(e.response.data);
+      setError(e.response.data);
+    }
   };
 
   React.useEffect(() => {
@@ -102,7 +117,7 @@ const SinglePatientPage: React.FC = () => {
           }
           <AddPatientEntryModal
             modalOpen={modalOpen}
-            onSubmit={() => console.log('EXPLOSION!')}
+            onSubmit={submitNewEntry}
             error={error}
             onClose={closeModal}
           />
