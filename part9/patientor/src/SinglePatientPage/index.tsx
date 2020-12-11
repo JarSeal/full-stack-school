@@ -1,11 +1,15 @@
 import React from "react";
 import axios from "axios";
 import { useParams } from 'react-router-dom';
-import { Container, Icon } from "semantic-ui-react";
+import { Container, Icon, List } from "semantic-ui-react";
 
-import { PatientFull, Gender } from "../types";
+import { PatientFull, Gender, Entry } from "../types";
 import { apiBaseUrl } from "../constants";
 import { useStateValue, setFullPatientData } from "../state";
+
+import HospitalEntryComp from '../entryComponents/HospitalEntry';
+import HealthCheckEntryComp from '../entryComponents/HealthCheckEntry';
+import OccupationalHealthcareEntryComp from '../entryComponents/OccupationalHealthcareEntry';
 
 const SinglePatientPage: React.FC = () => {
   const [{ patientsFull }, dispatch] = useStateValue();
@@ -43,7 +47,20 @@ const SinglePatientPage: React.FC = () => {
       case 'other':
         return 'genderless';
       default:
-        throw new Error('CUSTOM ERROR');
+        throw new Error('Unhandled enum type for Gender (icon): ' + gender.toString());
+    }
+  };
+
+  const entryDetails = (entry: Entry) => {
+    switch(entry.type) {
+      case 'Hospital':
+        return <HospitalEntryComp entry={entry} key={entry.id} />;
+      case 'HealthCheck':
+        return <HealthCheckEntryComp entry={entry} key={entry.id} />;
+      case 'OccupationalHealthcare':
+        return <OccupationalHealthcareEntryComp entry={entry} key={entry.id} />;
+      default:
+        throw new Error('Unhandled Entry type: ' + JSON.stringify(entry));
     }
   };
 
@@ -59,6 +76,16 @@ const SinglePatientPage: React.FC = () => {
           <div><span style={labelStyle()}>ssn:</span> {patientsFull[id].ssn}</div>
           <div><span style={labelStyle()}>occupation:</span> {patientsFull[id].occupation}</div>
           <div><span style={labelStyle()}>date of birth:</span> {patientsFull[id].dateOfBirth}</div>
+          {patientsFull[id].entries.length !== 0 &&
+            <div style={{marginTop: '16px'}}>
+              <h3>Entries</h3>
+              <List divided relaxed>
+              {patientsFull[id].entries.map((entry: Entry) =>
+                entryDetails(entry)
+              )}
+              </List>
+            </div>
+          }
         </div>
       }
     </Container>
