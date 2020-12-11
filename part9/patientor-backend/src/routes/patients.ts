@@ -11,6 +11,7 @@ router.get('/', (_req, res) => {
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   const patient = patientService.getOnePatientEntry(id);
+  console.log(id, patient);
   res.json(patient);
 });
 

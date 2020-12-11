@@ -41,7 +41,7 @@ const SinglePatientPage: React.FC = () => {
       case 'female':
         return 'venus';
       case 'other':
-        return 'transgender alternate';
+        return 'genderless';
       default:
         throw new Error('CUSTOM ERROR');
     }
