@@ -3,7 +3,7 @@ import { Diagnosis } from '../types';
 import { useStateValue } from "../state";
 
 interface Props {
-    codes: Array<Diagnosis['code']>
+    codes: Array<Diagnosis['code']>;
 }
 
 const DiagnosisCodes = ({ codes }: Props) => {
@@ -40,6 +40,6 @@ const DiagnosisCodes = ({ codes }: Props) => {
             )}
         </ul>
     );
-}
+};
 
 export default DiagnosisCodes;

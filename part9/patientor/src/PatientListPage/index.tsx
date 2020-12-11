@@ -41,7 +41,7 @@ const PatientListPage: React.FC = () => {
   };
 
   const setRowStyles = (id: string) => {
-    let styles = {
+    const styles = {
       cursor: 'pointer',
       backgroundColor: 'transparent',
       transition: 'background-color 0.16s ease-in-out'
