@@ -27,30 +27,34 @@ interface BaseEntry {
     diagnosisCodes?: Array<DiagnoseEntry['code']>;
 }
 
-interface OccupationalHealthCareEntry extends BaseEntry {
+export interface OccupationalHealthCareEntry extends BaseEntry {
     type: "OccupationalHealthcare";
     employerName: string;
     sickLeave?: SickLeave;
 }
 
-interface HospitalEntry extends BaseEntry {
+export interface HospitalEntry extends BaseEntry {
     type: "Hospital";
     discharge: Discharge;
 }
 
-interface HealthCheck extends BaseEntry {
+export interface HealthCheckEntry extends BaseEntry {
     type: "HealthCheck";
     healthCheckRating: HealthCheckRating;
 }
 
-export type Entry = OccupationalHealthCareEntry | HospitalEntry | HealthCheck;
+export type Entry = OccupationalHealthCareEntry | HospitalEntry | HealthCheckEntry;
+export type NewEntry = Omit<Entry, 'id'>;
+export type NewHospitalEntry = Omit<HospitalEntry, 'id'>;
+export type NewHealthCheckEntry = Omit<HealthCheckEntry, 'id'>;
+export type NewOccupationalEntry = Omit<OccupationalHealthCareEntry, 'id'>;
 
-interface Discharge {
+export interface Discharge {
     date: string;
     criteria: string;
 }
 
-interface SickLeave {
+export interface SickLeave {
     startDate: string;
     endDate: string;
 }

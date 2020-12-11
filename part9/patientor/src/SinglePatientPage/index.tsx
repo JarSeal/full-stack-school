@@ -1,9 +1,10 @@
 import React from "react";
 import axios from "axios";
 import { useParams } from 'react-router-dom';
-import { Container, Icon, List } from "semantic-ui-react";
+import { Container, Icon, List, Button } from "semantic-ui-react";
 
 import { PatientFull, Gender, Entry } from "../types";
+import AddPatientEntryModal from "../AddPatientEntryModal";
 import { apiBaseUrl } from "../constants";
 import { useStateValue, setFullPatientData } from "../state";
 
@@ -14,6 +15,16 @@ import OccupationalHealthcareEntryComp from '../entryComponents/OccupationalHeal
 const SinglePatientPage: React.FC = () => {
   const [{ patientsFull }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
+
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string | undefined>();
+
+  const openModal = (): void => setModalOpen(true);
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setError(undefined);
+  };
 
   React.useEffect(() => {
     if(!patientsFull[id]) {
@@ -76,16 +87,25 @@ const SinglePatientPage: React.FC = () => {
           <div><span style={labelStyle()}>ssn:</span> {patientsFull[id].ssn}</div>
           <div><span style={labelStyle()}>occupation:</span> {patientsFull[id].occupation}</div>
           <div><span style={labelStyle()}>date of birth:</span> {patientsFull[id].dateOfBirth}</div>
-          {patientsFull[id].entries.length !== 0 &&
+          {patientsFull[id].entries.length ?
             <div style={{marginTop: '16px'}}>
-              <h3>Entries</h3>
+              <h3>Entries <Button onClick={() => openModal()}>Add new entry</Button></h3>
               <List divided relaxed>
               {patientsFull[id].entries.map((entry: Entry) =>
                 entryDetails(entry)
               )}
               </List>
+            </div> :
+            <div style={{marginTop:'16px'}}>
+              <Button onClick={() => openModal()}>Add entry</Button>
             </div>
           }
+          <AddPatientEntryModal
+            modalOpen={modalOpen}
+            onSubmit={() => console.log('EXPLOSION!')}
+            error={error}
+            onClose={closeModal}
+          />
         </div>
       }
     </Container>
